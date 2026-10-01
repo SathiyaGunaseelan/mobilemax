@@ -21,11 +21,10 @@
     .font-brand-impact { font-family: 'Montserrat', sans-serif; font-weight: 900; }
     .font-luxury { font-family: 'Cinzel', serif; }
 
-    /* Custom Golden Gradient Styling for MAX MOBILES */
-    .gold-gradient-text {
-      background: linear-gradient(135deg, #FFF1B0 0%, #E5BA49 35%, #C29124 70%, #F5DE88 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    /* html2canvas SAFE Golden and Typography styling (NO background-clip: text!) */
+    .gold-solid-text {
+      color: #F6CE55;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 12px rgba(229, 186, 73, 0.45);
     }
     
     .gold-border {
@@ -85,7 +84,7 @@
 
       <div class="leading-tight">
         <h1 class="text-xs md:text-sm font-black tracking-wider text-white flex items-center gap-1.5">
-          <span class="gold-gradient-text font-luxury tracking-widest font-black">MAX MOBILES</span>
+          <span class="gold-solid-text font-luxury tracking-widest font-black">MAX MOBILES</span>
           <span class="text-[9px] bg-red-600 text-white font-black px-1.5 py-0.2 rounded shadow">OMR</span>
         </h1>
         <p class="text-[10px] text-amber-400 font-bold flex items-center gap-1">
@@ -173,9 +172,17 @@
 
               <div class="flex flex-col">
                 <div class="flex items-center gap-2">
-                  <span class="font-luxury font-black text-4xl tracking-widest gold-gradient-text shop-text-shadow">
-                    MAX MOBILES
-                  </span>
+                  <!-- Robust SVG text for 100% bug-free rendering in html2canvas -->
+                  <svg width="250" height="42" viewBox="0 0 250 42" class="overflow-visible">
+                    <defs>
+                      <linearGradient id="textGoldGrad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#FFF3B8"/>
+                        <stop offset="45%" stop-color="#F3C856"/>
+                        <stop offset="100%" stop-color="#B8851B"/>
+                      </linearGradient>
+                    </defs>
+                    <text x="0" y="32" font-family="'Cinzel', serif" font-weight="900" font-size="34" letter-spacing="3" fill="url(#textGoldGrad)">MAX MOBILES</text>
+                  </svg>
                   <span class="bg-red-600 text-white font-black text-sm px-2 py-0.5 rounded-md tracking-widest uppercase shadow-md">
                     OMR
                   </span>
@@ -226,25 +233,25 @@
             </div>
 
             <!-- SPECS & PRICING CONTAINER (RIGHT) -->
-            <div id="detailsCol" class="w-[630px] ml-auto h-full flex flex-col justify-between">
+            <div id="detailsCol" class="w-[630px] ml-auto h-full flex flex-col justify-between py-1">
               
               <!-- 3D MODEL HEADINGS -->
-              <div class="flex flex-col items-start">
+              <div class="flex flex-col items-start w-full">
                 
                 <!-- Brand Tagline -->
-                <div class="flex items-center gap-3">
-                  <span id="pBrandTitle" class="font-poster-title text-4xl text-slate-100 tracking-wider uppercase font-black drop-shadow-md">
+                <div class="flex items-center gap-3 mb-1">
+                  <span id="pBrandTitle" class="font-poster-title text-4xl text-amber-400 tracking-wider uppercase font-black drop-shadow-md">
                     REDMI
                   </span>
                   <div class="h-1.5 w-14 bg-amber-500 rounded-full"></div>
                 </div>
 
-                <!-- Model Mega Title -->
-                <div class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-[-6px]">
-                  <h2 id="pModelTitle" class="font-poster-title text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-amber-200 to-amber-500 leading-none drop-shadow-[0_6px_10px_rgba(0,0,0,0.95)]" style="-webkit-text-stroke: 1.5px rgba(255,255,255,0.4);">
+                <!-- Model Mega Title - Fixed line-height and no overlapping background clip -->
+                <div class="flex items-baseline flex-wrap gap-x-3 gap-y-1 w-full my-0.5">
+                  <h2 id="pModelTitle" class="font-poster-title text-6xl font-black text-amber-300 leading-tight drop-shadow-[0_4px_10px_rgba(0,0,0,0.95)]" style="-webkit-text-stroke: 1.5px rgba(0,0,0,0.6);">
                     Note 15
                   </h2>
-                  <h2 id="pModelSuffix" class="font-poster-title text-7xl font-black text-white italic drop-shadow-[0_6px_12px_rgba(0,0,0,0.95)]">
+                  <h2 id="pModelSuffix" class="font-poster-title text-6xl font-black text-white italic drop-shadow-[0_4px_10px_rgba(0,0,0,0.95)]">
                     Pro+
                   </h2>
                   <div id="pNetwork" class="border-2 border-red-500 bg-red-600 text-white font-black text-xl px-3 py-0.5 rounded-xl transform -rotate-3 shadow-xl">
@@ -253,7 +260,7 @@
                 </div>
 
                 <!-- Color Variant Badge -->
-                <div class="mt-1">
+                <div class="mt-2">
                   <div class="bg-black/90 border border-slate-700 text-slate-200 font-black text-xs px-4 py-1.5 rounded-full uppercase tracking-widest flex items-center gap-2 shadow-lg">
                     <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
                     <span id="pColor">CARBON BLACK</span>
@@ -344,14 +351,14 @@
 
               </div>
 
-              <!-- GIANT PRICE TAG BANNER -->
-              <div class="bg-gradient-to-r from-red-600 via-red-500 to-amber-500 p-1 rounded-3xl price-badge-glow flex items-center justify-center relative overflow-hidden shadow-2xl">
-                <div class="w-full bg-gradient-to-r from-red-800/95 via-red-700/95 to-red-600/95 py-2 px-6 rounded-[22px] flex items-center justify-between border border-amber-300/40">
+              <!-- GIANT PRICE TAG BANNER - Clean flexbox, no bottom overflow -->
+              <div class="bg-gradient-to-r from-red-600 via-red-500 to-amber-500 p-1 rounded-3xl price-badge-glow flex items-center justify-center relative overflow-hidden shadow-2xl my-1">
+                <div class="w-full bg-gradient-to-r from-red-900/95 via-red-800/95 to-red-700/95 py-2 px-6 rounded-[22px] flex items-center justify-between border border-amber-300/40">
                   <div class="flex items-center gap-2.5">
-                    <span class="text-sm font-black bg-amber-400 text-slate-950 px-3 py-1 rounded-md tracking-wider uppercase shadow">OFFER PRICE :</span>
-                    <span id="pCurrency" class="w-10 h-10 rounded-full bg-amber-400 text-slate-950 font-black text-2xl flex items-center justify-center shadow-lg">₹</span>
+                    <span class="text-xs font-black bg-amber-400 text-slate-950 px-3 py-1.5 rounded-md tracking-wider uppercase shadow">OFFER PRICE :</span>
+                    <span id="pCurrency" class="w-9 h-9 rounded-full bg-amber-400 text-slate-950 font-black text-xl flex items-center justify-center shadow-lg">₹</span>
                   </div>
-                  <span id="pPrice" class="font-price-number text-6xl md:text-7xl font-black text-white tracking-wide drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)]">
+                  <span id="pPrice" class="font-price-number text-5xl md:text-6xl font-black text-white tracking-wide leading-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)]">
                     29,900/-
                   </span>
                 </div>
@@ -1001,106 +1008,6 @@
       showToast('Loaded Preset', `${data.modelTitle}`);
     }
 
-    // Photo uploads & studio adjustments
-    function handleMainPhoto(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = e => {
-        document.getElementById('mainPhoneImg').src = e.target.result;
-        showToast('Photo Loaded', 'Phone hero shot updated.');
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function handleKitPhoto(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = e => {
-        document.getElementById('pKitThumb').src = e.target.result;
-        showToast('Kit Photo Loaded', 'Accessories box updated.');
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function setStudioFilter(filterClass) {
-      currentFilter = filterClass;
-      document.querySelectorAll('.filter-btn').forEach(b => {
-        if (b.getAttribute('data-filter') === filterClass) {
-          b.className = 'filter-btn py-1.5 px-1 rounded-lg bg-slate-950 border border-amber-400 text-amber-300 font-bold active:scale-95';
-        } else {
-          b.className = 'filter-btn py-1.5 px-1 rounded-lg bg-slate-950 border border-slate-700 text-slate-300 font-medium active:scale-95';
-        }
-      });
-      document.getElementById('mainPhoneImg').className = `${filterClass} max-h-[570px] max-w-[460px] object-contain transition-all duration-300`;
-      showToast('Filter Applied', filterClass.replace('filter-', '').toUpperCase());
-    }
-
-    function applyTransform() {
-      photoTransform.scale = parseFloat(document.getElementById('sliderScale').value);
-      photoTransform.rotate = parseInt(document.getElementById('sliderRotate').value);
-      photoTransform.panX = parseInt(document.getElementById('sliderPanX').value);
-      photoTransform.panY = parseInt(document.getElementById('sliderPanY').value);
-
-      document.getElementById('txtScale').innerText = `${photoTransform.scale.toFixed(2)}x`;
-      document.getElementById('txtRotate').innerText = `${photoTransform.rotate}°`;
-      document.getElementById('txtPanX').innerText = `${photoTransform.panX}px`;
-      document.getElementById('txtPanY').innerText = `${photoTransform.panY}px`;
-
-      document.getElementById('phonePhotoBox').style.transform = `translate(${photoTransform.panX}px, ${photoTransform.panY}px) rotate(${photoTransform.rotate}deg) scale(${photoTransform.scale})`;
-    }
-
-    function resetPhotoTransform() {
-      document.getElementById('sliderScale').value = 1.0;
-      document.getElementById('sliderRotate').value = 0;
-      document.getElementById('sliderPanX').value = 0;
-      document.getElementById('sliderPanY').value = 0;
-      applyTransform();
-    }
-
-    // Lighting Themes
-    function setTheme(theme) {
-      currentTheme = theme;
-      const bg = document.getElementById('posterBg');
-      const glow = document.getElementById('glowAccent');
-
-      document.querySelectorAll('.theme-btn').forEach(btn => {
-        if (btn.getAttribute('data-theme') === theme) {
-          btn.className = 'theme-btn py-2 px-1 bg-slate-950 border border-amber-400 text-amber-400 rounded-xl font-bold active:scale-95';
-        } else {
-          btn.className = 'theme-btn py-2 px-1 bg-slate-950 border border-slate-700 text-slate-300 rounded-xl font-medium active:scale-95';
-        }
-      });
-
-      if (theme === 'showroom') {
-        bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1400&q=80')";
-        bg.style.filter = "blur(3px) brightness(0.40) contrast(1.25)";
-        glow.className = 'absolute -top-24 -right-24 w-96 h-96 bg-amber-500/20 rounded-full blur-[100px] pointer-events-none';
-      } else if (theme === 'cyber') {
-        bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80')";
-        bg.style.filter = "blur(4px) brightness(0.35) hue-rotate(210deg)";
-        glow.className = 'absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/30 rounded-full blur-[100px] pointer-events-none';
-      } else if (theme === 'darkgold') {
-        bg.style.backgroundImage = "none";
-        bg.style.backgroundColor = "#09090b";
-        glow.className = 'absolute -top-24 -right-24 w-96 h-96 bg-yellow-500/25 rounded-full blur-[100px] pointer-events-none';
-      } else if (theme === 'crimson') {
-        bg.style.backgroundImage = "none";
-        bg.style.backgroundColor = "#0d0407";
-        glow.className = 'absolute -top-24 -right-24 w-96 h-96 bg-red-600/30 rounded-full blur-[100px] pointer-events-none';
-      } else if (theme === 'carbon') {
-        bg.style.backgroundImage = "none";
-        bg.style.backgroundColor = "#06080d";
-        glow.className = 'absolute -top-24 -right-24 w-96 h-96 bg-slate-500/20 rounded-full blur-[100px] pointer-events-none';
-      } else if (theme === 'emerald') {
-        bg.style.backgroundImage = "none";
-        bg.style.backgroundColor = "#03140d";
-        glow.className = 'absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/25 rounded-full blur-[100px] pointer-events-none';
-      }
-      showToast('Theme Updated', theme.toUpperCase());
-    }
-
     // Modal Add Custom Brand
     function openNewBrandModal() { document.getElementById('brandModal').classList.remove('hidden'); }
     function closeNewBrandModal() {
@@ -1136,17 +1043,29 @@
       showToast('New Brand Added', name);
     }
 
+    // High quality canvas rendering engine without html2canvas clipping bugs
     async function renderCanvasData() {
+      // Ensure web fonts are completely ready before capture
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+
       const poster = document.getElementById('salePoster');
       const savedTransform = poster.style.transform;
-      poster.style.transform = 'scale(1)';
+      poster.style.transform = 'none';
 
       const canvas = await html2canvas(poster, {
         scale: 2.0,
         useCORS: true,
         allowTaint: true,
-        backgroundColor: '#04060a',
-        logging: false
+        backgroundColor: '#07090e',
+        logging: false,
+        onclone: (clonedDoc) => {
+          const clonedPoster = clonedDoc.getElementById('salePoster');
+          if (clonedPoster) {
+            clonedPoster.style.transform = 'none';
+          }
+        }
       });
 
       poster.style.transform = savedTransform;
@@ -1171,7 +1090,7 @@
         link.click();
         document.body.removeChild(link);
 
-        showToast('Poster Saved HD', 'Ready to post on WhatsApp & Instagram!');
+        showToast('Poster Saved HD', 'Flaw-free HD banner downloaded!');
       } catch (err) {
         console.error(err);
         showToast('Export Error', 'Please check permissions.');
