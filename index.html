@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Mobile Shop Sale Poster & Story Studio</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -11,7 +11,7 @@
   <!-- Google Fonts: Anton, Montserrat, Teko, Orbitron for retail flyer graphics -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Teko:wght@600;700&family=Orbitron:wght@800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Teko:wght@600;700&family=Orbitron:wght@800;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <!-- html2canvas for crisp image rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -41,7 +41,7 @@
         2px -2px 0 #b91c1c, 
         -2px 2px 0 #b91c1c, 
         2px 2px 0 #b91c1c, 
-        0 6px 12px rgba(0,0,0,0.9);
+        0 6px 14px rgba(0,0,0,0.95);
     }
     
     .glow-gold {
@@ -73,10 +73,10 @@
       filter: drop-shadow(0 20px 25px rgba(0,0,0,0.9));
     }
 
-    /* Custom scrollbars */
+    /* Mobile scrollbars & utilities */
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 4px;
+      height: 4px;
     }
     ::-webkit-scrollbar-track {
       background: #090d16;
@@ -85,305 +85,85 @@
       background: #1e293b;
       border-radius: 9999px;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #334155;
-    }
 
     input[type=range] {
       accent-color: #f59e0b;
     }
+
+    .no-tap-highlight {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Keep the poster container crisp when scaled down */
+    #salePoster {
+      transform-origin: top center;
+      backface-visibility: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans select-none antialiased">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans select-none antialiased overflow-x-hidden">
 
-  <!-- TOP APP BAR -->
-  <header class="bg-slate-900/95 backdrop-blur border-b border-slate-800 px-4 py-2.5 sticky top-0 z-50 flex items-center justify-between shadow-2xl">
-    <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-red-600 to-amber-400 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-red-600/30">
-        <i class="fa-solid fa-mobile-screen-button text-xl text-white"></i>
+  <header class="bg-slate-900/95 backdrop-blur border-b border-slate-800 px-3 py-2 sticky top-0 z-50 flex items-center justify-between shadow-2xl">
+    <div class="flex items-center space-x-2">
+      <div class="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-gradient-to-tr from-amber-500 via-red-600 to-amber-400 flex items-center justify-center text-slate-950 font-black shadow-md shadow-red-600/30">
+        <i class="fa-solid fa-mobile-screen-button text-base md:text-lg text-white"></i>
       </div>
       <div>
-        <h1 class="text-sm md:text-base font-black tracking-wide text-white flex items-center gap-1.5">
-          POSTERCRAFT <span class="text-[10px] bg-amber-500 text-slate-950 font-black px-1.5 py-0.5 rounded tracking-normal">STUDIO PRO</span>
+        <h1 class="text-xs md:text-sm font-black tracking-wide text-white flex items-center gap-1">
+          POSTERCRAFT <span class="text-[9px] bg-amber-500 text-slate-950 font-black px-1 rounded">MOBILE</span>
         </h1>
-        <p class="text-[11px] text-slate-400 hidden sm:block">Instant High-Conversion WhatsApp & Instagram Mobile Posters</p>
+        <p class="text-[10px] text-slate-400 hidden sm:block">Ultra High-Conversion Sale Poster Maker</p>
       </div>
     </div>
 
     <!-- FORMAT SWITCHER (Poster vs Story) -->
-    <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-700/80 shadow-inner">
-      <button id="btnFormatPoster" onclick="setLayoutFormat('poster')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all bg-gradient-to-r from-amber-500 to-red-600 text-white shadow-md">
-        <i class="fa-solid fa-image text-sm"></i>
-        <span>Post / Banner (4:3)</span>
+    <div class="flex items-center bg-slate-950 p-0.5 md:p-1 rounded-xl border border-slate-700/80 shadow-inner">
+      <button id="btnFormatPoster" onclick="setLayoutFormat('poster')" class="flex items-center gap-1 px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg text-[11px] md:text-xs font-black transition-all bg-gradient-to-r from-amber-500 to-red-600 text-white shadow-md">
+        <i class="fa-solid fa-image text-xs"></i>
+        <span>Post 4:3</span>
       </button>
-      <button id="btnFormatStory" onclick="setLayoutFormat('story')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all">
-        <i class="fa-solid fa-mobile-screen text-sm"></i>
-        <span>Story / Status (9:16)</span>
+      <button id="btnFormatStory" onclick="setLayoutFormat('story')" class="flex items-center gap-1 px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg text-[11px] md:text-xs font-semibold text-slate-400 hover:text-white transition-all">
+        <i class="fa-solid fa-mobile-screen text-xs"></i>
+        <span>Story 9:16</span>
       </button>
     </div>
 
     <!-- ACTION BUTTONS -->
-    <div class="flex items-center gap-2">
-      <button onclick="applyRandomWowTheme()" class="hidden md:flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-amber-500/40 text-amber-300 font-bold text-xs rounded-lg transition active:scale-95">
+    <div class="flex items-center gap-1.5">
+      <button onclick="applyRandomWowTheme()" title="Auto WOW look" class="flex items-center justify-center w-8 h-8 md:w-auto md:px-2.5 md:py-1.5 bg-slate-800 hover:bg-slate-700 border border-amber-500/40 text-amber-300 font-bold text-xs rounded-lg transition active:scale-95">
         <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
-        <span>WOW Theme</span>
+        <span class="hidden md:inline ml-1">WOW</span>
       </button>
 
-      <button id="btnExport" onclick="exportFlyer()" class="bg-gradient-to-r from-red-600 via-amber-500 to-yellow-400 hover:brightness-110 active:scale-95 text-slate-950 font-black text-xs md:text-sm px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg shadow-amber-500/25 transition">
+      <button id="btnExport" onclick="exportFlyer()" class="bg-gradient-to-r from-red-600 via-amber-500 to-yellow-400 hover:brightness-110 active:scale-95 text-slate-950 font-black text-xs px-3 py-1.5 md:px-3.5 md:py-2 rounded-xl flex items-center gap-1.5 shadow-lg shadow-amber-500/25 transition">
         <i class="fa-solid fa-download"></i>
-        <span>Download 4K Flyer</span>
+        <span>Save HD</span>
       </button>
     </div>
   </header>
 
-  <!-- WORKSPACE GRID -->
-  <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden h-[calc(100vh-61px)]">
+  <main class="flex-1 flex flex-col lg:grid lg:grid-cols-12 overflow-hidden h-[calc(100vh-50px)]">
     
-    <div class="lg:col-span-5 xl:col-span-4 bg-slate-900/95 border-r border-slate-800 p-4 overflow-y-auto space-y-4">
+    <!-- LIVE PREVIEW CONTAINER -->
+    <div id="previewContainer" class="flex-1 lg:col-span-7 xl:col-span-8 bg-[#070b13] flex flex-col items-center justify-center p-2 sm:p-4 overflow-hidden relative select-none">
       
-      <!-- 1-TAP INSTANT SMARTPHONE PRESETS -->
-      <div class="bg-gradient-to-br from-amber-500/10 via-slate-800 to-slate-900 p-3.5 rounded-2xl border border-amber-500/30 shadow-lg">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-xs font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-            <i class="fa-solid fa-bolt-lightning text-yellow-400 animate-pulse"></i> 1-Tap Phone Presets:
-          </span>
-          <span class="text-[10px] text-slate-400 font-medium">Auto-fills specs, logos & titles</span>
+      <!-- Live Indicator Bar -->
+      <div class="w-full flex items-center justify-between px-2 mb-1.5 max-w-lg text-[10px] md:text-xs text-slate-400">
+        <div class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="canvasModeLabel" class="font-bold uppercase tracking-wider text-slate-200">Post Banner (1200 x 900)</span>
         </div>
-        <div class="grid grid-cols-3 gap-1.5">
-          <button onclick="applyPreset('redmi')" class="preset-btn bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 p-2 rounded-xl text-left transition flex flex-col justify-between active:scale-95">
-            <span class="text-[9px] text-[#ff6900] font-black uppercase">Redmi</span>
-            <span class="text-xs font-extrabold text-white truncate">Note 15 Pro+</span>
-            <span class="text-[10px] text-amber-400 font-bold mt-1">₹29,900/-</span>
-          </button>
-          
-          <button onclick="applyPreset('iphone')" class="preset-btn bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 p-2 rounded-xl text-left transition flex flex-col justify-between active:scale-95">
-            <span class="text-[9px] text-slate-300 font-black uppercase">Apple</span>
-            <span class="text-xs font-extrabold text-white truncate">15 Pro Max</span>
-            <span class="text-[10px] text-amber-400 font-bold mt-1">₹89,900/-</span>
-          </button>
-
-          <button onclick="applyPreset('samsung')" class="preset-btn bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 p-2 rounded-xl text-left transition flex flex-col justify-between active:scale-95">
-            <span class="text-[9px] text-blue-400 font-black uppercase">Samsung</span>
-            <span class="text-xs font-extrabold text-white truncate">S24 Ultra</span>
-            <span class="text-[10px] text-amber-400 font-bold mt-1">₹79,900/-</span>
-          </button>
-
-          <button onclick="applyPreset('oneplus')" class="preset-btn bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 p-2 rounded-xl text-left transition flex flex-col justify-between active:scale-95">
-            <span class="text-[9px] text-red-500 font-black uppercase">OnePlus</span>
-            <span class="text-xs font-extrabold text-white truncate">OnePlus 12</span>
-            <span class="text-[10px] text-amber-400 font-bold mt-1">₹49,999/-</span>
-          </button>
-
-          <button onclick="applyPreset('vivo')" class="preset-btn bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 p-2 rounded-xl text-left transition flex flex-col justify-between active:scale-95">
-            <span class="text-[9px] text-sky-400 font-black uppercase">Vivo</span>
-            <span class="text-xs font-extrabold text-white truncate">X100 Pro</span>
-            <span class="text-[10px] text-amber-400 font-bold mt-1">₹58,900/-</span>
-          </button>
-
-          <button onclick="applyPreset('realme')" class="preset-btn bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 p-2 rounded-xl text-left transition flex flex-col justify-between active:scale-95">
-            <span class="text-[9px] text-yellow-400 font-black uppercase">Realme</span>
-            <span class="text-xs font-extrabold text-white truncate">12 Pro+ 5G</span>
-            <span class="text-[10px] text-amber-400 font-bold mt-1">₹23,999/-</span>
-          </button>
+        <div class="flex items-center gap-1">
+          <button onclick="autoScaleFit()" class="px-2 py-0.5 bg-slate-900 border border-slate-700 text-amber-400 rounded-md font-semibold active:scale-95">Fit Screen</button>
         </div>
       </div>
 
-      <div class="bg-slate-800/60 p-3.5 rounded-2xl border border-slate-700/60 space-y-3">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-            <i class="fa-solid fa-camera text-amber-400"></i> Client Photo & Studio Filters
-          </span>
-          <button onclick="resetPhotoTransform()" class="text-[10px] text-amber-400 hover:underline">Reset Transform</button>
-        </div>
-
-        <!-- File Upload Button -->
-        <div class="flex items-center gap-2">
-          <label class="flex-1 cursor-pointer bg-gradient-to-r from-slate-800 to-slate-900 hover:border-amber-400 border border-dashed border-slate-600 rounded-xl p-2.5 text-center text-xs text-slate-200 transition shadow-inner">
-            <i class="fa-solid fa-cloud-arrow-up text-amber-400 mr-1.5"></i>
-            <span class="font-bold">Upload Phone Photo</span>
-            <span class="block text-[10px] text-slate-400">Hand holding phone or table shot</span>
-            <input type="file" id="mainPhotoInput" accept="image/*" class="hidden" onchange="handleMainPhoto(event)">
-          </label>
-
-          <label class="cursor-pointer bg-slate-900 hover:border-amber-400 border border-dashed border-slate-700 rounded-xl p-2.5 text-center text-xs text-slate-300 transition w-28" title="Upload charger / kit photo">
-            <i class="fa-solid fa-box-open text-amber-400 block mb-0.5"></i>
-            <span class="text-[10px] font-bold block">Kit Photo</span>
-            <input type="file" id="kitPhotoInput" accept="image/*" class="hidden" onchange="handleKitPhoto(event)">
-          </label>
-        </div>
-
-        <!-- Instant Studio Filter Selection -->
-        <div>
-          <label class="text-[11px] font-semibold text-slate-400 block mb-1">Instant Studio Enhancer (Fixes Camera Quality):</label>
-          <div class="grid grid-cols-4 gap-1 text-[11px]">
-            <button onclick="setStudioFilter('filter-hdr')" class="filter-btn py-1 px-2 rounded-lg bg-slate-900 border border-amber-400 text-amber-300 font-bold active:scale-95" data-filter="filter-hdr">HDR Boost</button>
-            <button onclick="setStudioFilter('filter-crisp')" class="filter-btn py-1 px-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 font-medium active:scale-95" data-filter="filter-crisp">Crisp Pop</button>
-            <button onclick="setStudioFilter('filter-warm')" class="filter-btn py-1 px-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 font-medium active:scale-95" data-filter="filter-warm">Warm Shop</button>
-            <button onclick="setStudioFilter('filter-none')" class="filter-btn py-1 px-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 font-medium active:scale-95" data-filter="filter-none">Original</button>
-          </div>
-        </div>
-
-        <!-- Position & Scale Sliders -->
-        <div class="grid grid-cols-2 gap-2 text-[11px] bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
-          <div>
-            <div class="flex justify-between text-slate-400 mb-0.5"><span>Scale:</span><span id="txtScale">1.0x</span></div>
-            <input type="range" id="sliderScale" min="0.6" max="1.8" step="0.05" value="1.0" class="w-full" oninput="applyTransform()">
-          </div>
-          <div>
-            <div class="flex justify-between text-slate-400 mb-0.5"><span>Rotate:</span><span id="txtRotate">0°</span></div>
-            <input type="range" id="sliderRotate" min="-30" max="30" step="1" value="0" class="w-full" oninput="applyTransform()">
-          </div>
-          <div>
-            <div class="flex justify-between text-slate-400 mb-0.5"><span>Pan X:</span><span id="txtPanX">0px</span></div>
-            <input type="range" id="sliderPanX" min="-300" max="300" step="5" value="0" class="w-full" oninput="applyTransform()">
-          </div>
-          <div>
-            <div class="flex justify-between text-slate-400 mb-0.5"><span>Pan Y:</span><span id="txtPanY">0px</span></div>
-            <input type="range" id="sliderPanY" min="-300" max="300" step="5" value="0" class="w-full" oninput="applyTransform()">
-          </div>
-        </div>
-      </div>
-
-      <details open class="group bg-slate-800/60 rounded-2xl border border-slate-700/60 overflow-hidden">
-        <summary class="flex items-center justify-between p-3.5 cursor-pointer font-bold text-xs uppercase tracking-wider text-slate-200 hover:bg-slate-800 transition">
-          <span class="flex items-center gap-2">
-            <i class="fa-solid fa-sliders text-amber-400"></i> Model Details & Pricing
-          </span>
-          <i class="fa-solid fa-chevron-down text-slate-400 text-xs transition group-open:rotate-180"></i>
-        </summary>
-        <div class="p-3.5 pt-0 border-t border-slate-700/40 space-y-3 mt-2">
-          
-          <!-- Shop Name & Tag -->
-          <div class="grid grid-cols-3 gap-2">
-            <div class="col-span-2">
-              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Shop Name</label>
-              <input type="text" id="inpShopName" value="MAX MOBILES" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:border-amber-400 outline-none" oninput="refreshPoster()">
-            </div>
-            <div>
-              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Location/Branch</label>
-              <input type="text" id="inpShopTag" value="OMR" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:border-amber-400 outline-none" oninput="refreshPoster()">
-            </div>
-          </div>
-
-          <!-- Model Heading & Variant -->
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Brand / Slogan</label>
-              <input type="text" id="inpBrandTitle" value="REDMI" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:border-amber-400 outline-none" oninput="refreshPoster()">
-            </div>
-            <div>
-              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Color Variant</label>
-              <input type="text" id="inpColor" value="CARBON BLACK" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:border-amber-400 outline-none" oninput="refreshPoster()">
-            </div>
-          </div>
-
-          <div class="grid grid-cols-12 gap-2">
-            <div class="col-span-6">
-              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Model Name</label>
-              <input type="text" id="inpModelTitle" value="Note 15" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white font-black focus:border-amber-400 outline-none" oninput="refreshPoster()">
-            </div>
-            <div class="col-span-4">
-              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Suffix (Pro+/Ultra)</label>
-              <input type="text" id="inpModelSuffix" value="Pro+" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
-            </div>
-            <div class="col-span-2">
-              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Network</label>
-              <input type="text" id="inpNetwork" value="5G" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold text-center focus:border-amber-400 outline-none" oninput="refreshPoster()">
-            </div>
-          </div>
-
-          <!-- Specs (RAM, Storage, Spec 3) -->
-          <div class="grid grid-cols-3 gap-2">
-            <div>
-              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">RAM</label>
-              <input type="text" id="inpRam" value="8GB" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
-            </div>
-            <div>
-              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Storage</label>
-              <input type="text" id="inpStorage" value="256GB" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
-            </div>
-            <div>
-              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Feature Badge</label>
-              <input type="text" id="inpSpec3" value="5G READY" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
-            </div>
-          </div>
-
-          <!-- Price & Currency -->
-          <div class="bg-red-950/40 p-2.5 rounded-xl border border-red-800/60 grid grid-cols-3 gap-2 items-center">
-            <div>
-              <label class="text-[10px] font-semibold text-amber-400 block mb-0.5">Currency</label>
-              <select id="inpCurrency" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" onchange="refreshPoster()">
-                <option value="₹">₹ (INR)</option>
-                <option value="$">$ (USD)</option>
-                <option value="AED">AED</option>
-                <option value="£">£ (GBP)</option>
-              </select>
-            </div>
-            <div class="col-span-2">
-              <label class="text-[10px] font-semibold text-amber-400 block mb-0.5">Offer Selling Price</label>
-              <input type="text" id="inpPrice" value="29,900/-" class="w-full bg-slate-900 border border-red-600 rounded-lg px-2.5 py-1 text-xs font-black text-amber-300 focus:border-amber-400 outline-none text-base" oninput="refreshPoster()">
-            </div>
-          </div>
-
-          <!-- Warranty & Kit Condition Badges -->
-          <div class="space-y-2">
-            <div>
-              <label class="text-[10px] font-semibold text-emerald-400 block mb-0.5">Warranty Badge</label>
-              <input type="text" id="inpWarranty" value="10 MONTHS WARRANTY REMAINING" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-emerald-300 font-bold focus:border-emerald-400 outline-none" oninput="refreshPoster()">
-            </div>
-            <div>
-              <label class="text-[10px] font-semibold text-amber-400 block mb-0.5">Condition Badge</label>
-              <input type="text" id="inpCondition" value="GOOD CONDITION FULLKIT" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-amber-300 font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
-            </div>
-          </div>
-
-          <!-- Trust Badges -->
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="text-[10px] font-semibold text-red-400 block mb-0.5">Warning Pill</label>
-              <input type="text" id="inpWarning" value="DON'T PAY ADVANCE" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white focus:border-red-400 outline-none" oninput="refreshPoster()">
-            </div>
-            <div>
-              <label class="text-[10px] font-semibold text-yellow-400 block mb-0.5">Exchange Pill</label>
-              <input type="text" id="inpExchange" value="EXCHANGE ACCEPTED" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white focus:border-yellow-400 outline-none" oninput="refreshPoster()">
-            </div>
-          </div>
-
-          <!-- Bottom Footer Promo -->
-          <div>
-            <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Shop Footer Perks Strip</label>
-            <input type="text" id="inpFooterPerks" value="WE BUY YOUR GADGETS  •  BEST EXCHANGE AVAILABLE  •  ALL MOBILES IN STOCK" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-300 focus:border-amber-400 outline-none" oninput="refreshPoster()">
-          </div>
-
-        </div>
-      </details>
-
-      <div class="bg-slate-800/60 p-3.5 rounded-2xl border border-slate-700/60">
-        <label class="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
-          <i class="fa-solid fa-palette text-amber-400"></i> Ambiance Backdrop
-        </label>
-        <div class="grid grid-cols-3 gap-1.5 text-xs">
-          <button onclick="setTheme('showroom')" class="theme-btn py-1.5 px-2 bg-slate-900 border border-amber-400 text-amber-400 rounded-xl font-bold active:scale-95" data-theme="showroom">Shop Shelf</button>
-          <button onclick="setTheme('darkneon')" class="theme-btn py-1.5 px-2 bg-slate-900 border border-slate-700 text-slate-300 rounded-xl font-medium active:scale-95" data-theme="darkneon">Neon Cyber</button>
-          <button onclick="setTheme('carbon')" class="theme-btn py-1.5 px-2 bg-slate-900 border border-slate-700 text-slate-300 rounded-xl font-medium active:scale-95" data-theme="carbon">Dark Carbon</button>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="lg:col-span-7 xl:col-span-8 bg-[#070b13] flex flex-col items-center justify-center p-3 md:p-6 overflow-auto relative">
-      
-      <!-- Live Aspect Ratio Badge -->
-      <div class="mb-2 text-[11px] text-slate-400 flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-        <span id="canvasModeLabel" class="font-bold uppercase tracking-wider text-slate-200">Mode: Post / Catalog Banner (1200 x 900)</span>
-      </div>
-
-      <!-- Poster Rendering Container -->
+      <!-- Poster Scaler Stage Wrapper -->
       <div id="posterWrapper" class="relative transition-all duration-300 flex items-center justify-center shadow-2xl">
         
-        <!-- THE POSTER STAGE (Dynamically toggles classes between 'poster-layout' and 'story-layout') -->
-        <div id="salePoster" class="poster-layout relative overflow-hidden bg-slate-950 select-none shadow-[0_0_60px_rgba(0,0,0,0.9)] border border-slate-800" style="width: 1200px; height: 900px; transform-origin: center center;">
+        <!-- THE POSTER CANVAS -->
+        <div id="salePoster" class="poster-layout relative overflow-hidden bg-slate-950 select-none shadow-[0_0_50px_rgba(0,0,0,0.9)] border border-slate-800" style="width: 1200px; height: 900px;">
           
           <!-- Blurred Background Layer -->
           <div id="posterBg" class="absolute inset-0 bg-cover bg-center transition-all duration-500 filter blur-[3px] brightness-[0.40] contrast-125 scale-105"
@@ -423,7 +203,6 @@
 
           </div>
 
-          <!-- ================= DYNAMIC CONTENT CONTAINER ================= -->
           <!-- In POSTER mode: horizontal split (Left: Phone, Right: Specs & Price) -->
           <!-- In STORY mode: vertical stack (Top: Phone, Bottom: Specs & Price) -->
           <div id="layoutRoot" class="absolute inset-0 z-20 flex pt-28 pb-14 px-8 pointer-events-none">
@@ -622,32 +401,256 @@
 
       </div>
 
-      <!-- Live Zoom Controller -->
-      <div class="mt-4 flex items-center gap-3 bg-slate-900 border border-slate-800 px-4 py-1.5 rounded-full text-xs text-slate-400 shadow-xl">
-        <i class="fa-solid fa-magnifying-glass text-amber-400"></i>
-        <span>Zoom:</span>
-        <button onclick="setZoom(0.45)" class="hover:text-white px-1">45%</button>
-        <button onclick="setZoom(0.60)" class="hover:text-white px-1">60%</button>
-        <button onclick="setZoom(0.75)" class="hover:text-white px-1">75%</button>
-        <button onclick="autoScaleFit()" class="text-amber-400 font-bold px-2 py-0.5 bg-slate-800 rounded">Auto Fit</button>
+    </div>
+
+    <div class="lg:col-span-5 xl:col-span-4 bg-slate-900 border-t lg:border-t-0 lg:border-l border-slate-800 flex flex-col h-[48vh] lg:h-full z-40">
+      
+      <!-- Mobile Segment Navigation Tabs -->
+      <div class="flex items-center justify-around border-b border-slate-800 bg-slate-950 p-1 text-xs">
+        <button onclick="switchTab('presets')" id="tabBtn-presets" class="tab-button flex-1 py-2 px-1 text-center font-bold text-amber-400 border-b-2 border-amber-400 flex items-center justify-center gap-1.5 transition no-tap-highlight">
+          <i class="fa-solid fa-bolt text-yellow-400"></i>
+          <span>Presets</span>
+        </button>
+        <button onclick="switchTab('photo')" id="tabBtn-photo" class="tab-button flex-1 py-2 px-1 text-center font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-200 flex items-center justify-center gap-1.5 transition no-tap-highlight">
+          <i class="fa-solid fa-camera text-sky-400"></i>
+          <span>Photo</span>
+        </button>
+        <button onclick="switchTab('specs')" id="tabBtn-specs" class="tab-button flex-1 py-2 px-1 text-center font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-200 flex items-center justify-center gap-1.5 transition no-tap-highlight">
+          <i class="fa-solid fa-sliders text-emerald-400"></i>
+          <span>Specs</span>
+        </button>
+        <button onclick="switchTab('theme')" id="tabBtn-theme" class="tab-button flex-1 py-2 px-1 text-center font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-200 flex items-center justify-center gap-1.5 transition no-tap-highlight">
+          <i class="fa-solid fa-palette text-pink-400"></i>
+          <span>Theme</span>
+        </button>
+      </div>
+
+      <!-- Tab Panels Scrollable Container -->
+      <div class="flex-1 overflow-y-auto p-3 space-y-3">
+        
+        <!-- PANEL 1: 1-TAP PRESETS -->
+        <div id="tabPanel-presets" class="tab-panel space-y-3">
+          <div class="flex items-center justify-between text-xs font-semibold text-slate-400">
+            <span>Instant Smartphone Profiles:</span>
+            <span class="text-[10px] text-amber-400">Auto sets specs & colors</span>
+          </div>
+          
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <button onclick="applyPreset('redmi')" class="preset-btn bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-amber-400 p-2.5 rounded-xl text-left transition flex flex-col justify-between active:scale-95 no-tap-highlight">
+              <span class="text-[10px] text-[#ff6900] font-black uppercase">Redmi</span>
+              <span class="text-xs font-extrabold text-white truncate">Note 15 Pro+</span>
+              <span class="text-[11px] text-amber-400 font-bold mt-1">₹29,900/-</span>
+            </button>
+            
+            <button onclick="applyPreset('iphone')" class="preset-btn bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-amber-400 p-2.5 rounded-xl text-left transition flex flex-col justify-between active:scale-95 no-tap-highlight">
+              <span class="text-[10px] text-slate-300 font-black uppercase">Apple</span>
+              <span class="text-xs font-extrabold text-white truncate">15 Pro Max</span>
+              <span class="text-[11px] text-amber-400 font-bold mt-1">₹89,900/-</span>
+            </button>
+
+            <button onclick="applyPreset('samsung')" class="preset-btn bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-amber-400 p-2.5 rounded-xl text-left transition flex flex-col justify-between active:scale-95 no-tap-highlight">
+              <span class="text-[10px] text-blue-400 font-black uppercase">Samsung</span>
+              <span class="text-xs font-extrabold text-white truncate">S24 Ultra</span>
+              <span class="text-[11px] text-amber-400 font-bold mt-1">₹79,900/-</span>
+            </button>
+
+            <button onclick="applyPreset('oneplus')" class="preset-btn bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-amber-400 p-2.5 rounded-xl text-left transition flex flex-col justify-between active:scale-95 no-tap-highlight">
+              <span class="text-[10px] text-red-500 font-black uppercase">OnePlus</span>
+              <span class="text-xs font-extrabold text-white truncate">OnePlus 12</span>
+              <span class="text-[11px] text-amber-400 font-bold mt-1">₹49,999/-</span>
+            </button>
+
+            <button onclick="applyPreset('vivo')" class="preset-btn bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-amber-400 p-2.5 rounded-xl text-left transition flex flex-col justify-between active:scale-95 no-tap-highlight">
+              <span class="text-[10px] text-sky-400 font-black uppercase">Vivo</span>
+              <span class="text-xs font-extrabold text-white truncate">X100 Pro</span>
+              <span class="text-[11px] text-amber-400 font-bold mt-1">₹58,900/-</span>
+            </button>
+
+            <button onclick="applyPreset('realme')" class="preset-btn bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-amber-400 p-2.5 rounded-xl text-left transition flex flex-col justify-between active:scale-95 no-tap-highlight">
+              <span class="text-[10px] text-yellow-400 font-black uppercase">Realme</span>
+              <span class="text-xs font-extrabold text-white truncate">12 Pro+ 5G</span>
+              <span class="text-[11px] text-amber-400 font-bold mt-1">₹23,999/-</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- PANEL 2: CLIENT PHOTO & ADJUST -->
+        <div id="tabPanel-photo" class="tab-panel hidden space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300 uppercase tracking-wide">Upload Phone Shot</span>
+            <button onclick="resetPhotoTransform()" class="text-xs text-amber-400 hover:underline">Reset Framing</button>
+          </div>
+
+          <!-- Camera & File Trigger Buttons -->
+          <div class="grid grid-cols-2 gap-2">
+            <label class="cursor-pointer bg-gradient-to-br from-slate-800 to-slate-900 border-2 border-dashed border-amber-500/50 hover:border-amber-400 rounded-xl p-3 text-center transition flex flex-col items-center justify-center no-tap-highlight">
+              <i class="fa-solid fa-camera text-amber-400 text-lg mb-1"></i>
+              <span class="text-xs font-bold text-white">Snap or Upload</span>
+              <span class="text-[10px] text-slate-400">Hand or Table shot</span>
+              <input type="file" id="mainPhotoInput" accept="image/*" class="hidden" onchange="handleMainPhoto(event)">
+            </label>
+
+            <label class="cursor-pointer bg-slate-800 border-2 border-dashed border-slate-700 hover:border-amber-400 rounded-xl p-3 text-center transition flex flex-col items-center justify-center no-tap-highlight">
+              <i class="fa-solid fa-box-open text-sky-400 text-lg mb-1"></i>
+              <span class="text-xs font-bold text-white">Box / Kit Photo</span>
+              <span class="text-[10px] text-slate-400">Accessories preview</span>
+              <input type="file" id="kitPhotoInput" accept="image/*" class="hidden" onchange="handleKitPhoto(event)">
+            </label>
+          </div>
+
+          <!-- Camera Filter Enhancer Buttons -->
+          <div>
+            <label class="text-[11px] font-semibold text-slate-400 block mb-1">Instant Studio Enhancer:</label>
+            <div class="grid grid-cols-4 gap-1.5 text-xs">
+              <button onclick="setStudioFilter('filter-hdr')" class="filter-btn py-1.5 px-1 rounded-lg bg-slate-950 border border-amber-400 text-amber-300 font-bold active:scale-95" data-filter="filter-hdr">HDR</button>
+              <button onclick="setStudioFilter('filter-crisp')" class="filter-btn py-1.5 px-1 rounded-lg bg-slate-950 border border-slate-700 text-slate-300 font-medium active:scale-95" data-filter="filter-crisp">Crisp</button>
+              <button onclick="setStudioFilter('filter-warm')" class="filter-btn py-1.5 px-1 rounded-lg bg-slate-950 border border-slate-700 text-slate-300 font-medium active:scale-95" data-filter="filter-warm">Warm</button>
+              <button onclick="setStudioFilter('filter-none')" class="filter-btn py-1.5 px-1 rounded-lg bg-slate-950 border border-slate-700 text-slate-300 font-medium active:scale-95" data-filter="filter-none">None</button>
+            </div>
+          </div>
+
+          <!-- Sliders for Touch Alignment -->
+          <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <div class="flex justify-between text-slate-400 mb-0.5"><span>Scale:</span><span id="txtScale">1.0x</span></div>
+                <input type="range" id="sliderScale" min="0.6" max="1.8" step="0.05" value="1.0" class="w-full" oninput="applyTransform()">
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-400 mb-0.5"><span>Rotate:</span><span id="txtRotate">0°</span></div>
+                <input type="range" id="sliderRotate" min="-30" max="30" step="1" value="0" class="w-full" oninput="applyTransform()">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <div class="flex justify-between text-slate-400 mb-0.5"><span>Pan X:</span><span id="txtPanX">0px</span></div>
+                <input type="range" id="sliderPanX" min="-300" max="300" step="5" value="0" class="w-full" oninput="applyTransform()">
+              </div>
+              <div>
+                <div class="flex justify-between text-slate-400 mb-0.5"><span>Pan Y:</span><span id="txtPanY">0px</span></div>
+                <input type="range" id="sliderPanY" min="-300" max="300" step="5" value="0" class="w-full" oninput="applyTransform()">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL 3: SPECS & PRICING -->
+        <div id="tabPanel-specs" class="tab-panel hidden space-y-3">
+          
+          <!-- Shop info -->
+          <div class="grid grid-cols-3 gap-2">
+            <div class="col-span-2">
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Shop Name</label>
+              <input type="text" id="inpShopName" value="MAX MOBILES" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div>
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Branch</label>
+              <input type="text" id="inpShopTag" value="OMR" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+          </div>
+
+          <!-- Brand & Model -->
+          <div class="grid grid-cols-12 gap-2">
+            <div class="col-span-6">
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Model Name</label>
+              <input type="text" id="inpModelTitle" value="Note 15" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white font-black focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div class="col-span-4">
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Suffix</label>
+              <input type="text" id="inpModelSuffix" value="Pro+" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div class="col-span-2">
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">5G</label>
+              <input type="text" id="inpNetwork" value="5G" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-1.5 py-1 text-xs text-white font-bold text-center focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Brand Tagline</label>
+              <input type="text" id="inpBrandTitle" value="REDMI" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div>
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Color Variant</label>
+              <input type="text" id="inpColor" value="CARBON BLACK" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+          </div>
+
+          <!-- RAM & Storage -->
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">RAM</label>
+              <input type="text" id="inpRam" value="8GB" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div>
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Storage</label>
+              <input type="text" id="inpStorage" value="256GB" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div>
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Feature Pill</label>
+              <input type="text" id="inpSpec3" value="5G READY" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+          </div>
+
+          <!-- Price & Currency -->
+          <div class="bg-red-950/40 p-2.5 rounded-xl border border-red-800/60 grid grid-cols-3 gap-2 items-center">
+            <div>
+              <label class="text-[10px] font-semibold text-amber-400 block mb-0.5">Currency</label>
+              <select id="inpCurrency" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" onchange="refreshPoster()">
+                <option value="₹">₹ (INR)</option>
+                <option value="$">$ (USD)</option>
+                <option value="AED">AED</option>
+                <option value="£">£ (GBP)</option>
+              </select>
+            </div>
+            <div class="col-span-2">
+              <label class="text-[10px] font-semibold text-amber-400 block mb-0.5">Selling Price</label>
+              <input type="text" id="inpPrice" value="29,900/-" class="w-full bg-slate-950 border border-red-600 rounded-lg px-2.5 py-1 text-xs font-black text-amber-300 focus:border-amber-400 outline-none text-base" oninput="refreshPoster()">
+            </div>
+          </div>
+
+          <!-- Warranty & Condition -->
+          <div class="space-y-2">
+            <div>
+              <label class="text-[10px] font-semibold text-emerald-400 block mb-0.5">Warranty Badge Text</label>
+              <input type="text" id="inpWarranty" value="10 MONTHS WARRANTY REMAINING" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-emerald-300 font-bold focus:border-emerald-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div>
+              <label class="text-[10px] font-semibold text-amber-400 block mb-0.5">Condition Badge Text</label>
+              <input type="text" id="inpCondition" value="GOOD CONDITION FULLKIT" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-amber-300 font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+          </div>
+
+        </div>
+
+        <!-- PANEL 4: THEMES & AMBIENCE -->
+        <div id="tabPanel-theme" class="tab-panel hidden space-y-3">
+          <label class="text-xs font-bold text-slate-300 uppercase tracking-wide block mb-1">Background Ambiance</label>
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <button onclick="setTheme('showroom')" class="theme-btn py-2 px-1 bg-slate-950 border border-amber-400 text-amber-400 rounded-xl font-bold active:scale-95 no-tap-highlight" data-theme="showroom">Showroom</button>
+            <button onclick="setTheme('darkneon')" class="theme-btn py-2 px-1 bg-slate-950 border border-slate-700 text-slate-300 rounded-xl font-medium active:scale-95 no-tap-highlight" data-theme="darkneon">Cyber Neon</button>
+            <button onclick="setTheme('carbon')" class="theme-btn py-2 px-1 bg-slate-950 border border-slate-700 text-slate-300 rounded-xl font-medium active:scale-95 no-tap-highlight" data-theme="carbon">Dark Carbon</button>
+          </div>
+        </div>
+
       </div>
 
     </div>
   </main>
 
   <!-- Notification Toast -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 border border-amber-500 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
-    <div id="toastIcon" class="w-8 h-8 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center font-bold">
+  <div id="toast" class="fixed bottom-14 lg:bottom-5 right-4 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 border border-amber-500 text-white px-3.5 py-2.5 rounded-2xl shadow-2xl flex items-center gap-2.5 pointer-events-none">
+    <div id="toastIcon" class="w-7 h-7 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center font-bold text-xs flex-shrink-0">
       <i class="fa-solid fa-check"></i>
     </div>
     <div>
       <h4 id="toastTitle" class="text-xs font-bold uppercase text-amber-400">Success</h4>
-      <p id="toastMessage" class="text-xs text-slate-300">Flyer updated.</p>
+      <p id="toastMessage" class="text-[11px] text-slate-300">Updated</p>
     </div>
   </div>
 
   <script>
-    // State management
+    // State
     let currentLayout = 'poster'; // 'poster' (4:3) or 'story' (9:16)
     let currentTheme = 'showroom';
     let currentFilter = 'filter-hdr';
@@ -811,13 +814,53 @@
       }
     };
 
-    // Initialize layout
+    // Initialize layout on load and bind resize handlers
     window.addEventListener('DOMContentLoaded', () => {
       setLayoutFormat('poster');
       window.addEventListener('resize', autoScaleFit);
+      window.addEventListener('orientationchange', () => {
+        setTimeout(autoScaleFit, 200);
+      });
     });
 
-    // LAYOUT SWITCHER: POSTER (4:3) VS STORY (9:16)
+    // Mobile Tab Navigation
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.add('hidden'));
+      document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('text-amber-400', 'border-amber-400');
+        btn.classList.add('text-slate-400', 'border-transparent');
+      });
+
+      const activePanel = document.getElementById(`tabPanel-${tabId}`);
+      const activeBtn = document.getElementById(`tabBtn-${tabId}`);
+      if (activePanel) activePanel.classList.remove('hidden');
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-400', 'border-transparent');
+        activeBtn.classList.add('text-amber-400', 'border-amber-400');
+      }
+    }
+
+    // Responsive Canvas Auto-fit Calculation
+    function autoScaleFit() {
+      const container = document.getElementById('previewContainer');
+      const poster = document.getElementById('salePoster');
+      const wrapper = document.getElementById('posterWrapper');
+      if (!container || !poster || !wrapper) return;
+
+      const availWidth = container.clientWidth - 16;
+      const availHeight = container.clientHeight - 34;
+
+      const baseWidth = parseInt(poster.style.width) || 1200;
+      const baseHeight = parseInt(poster.style.height) || 900;
+
+      const scale = Math.min(availWidth / baseWidth, availHeight / baseHeight, 1.0);
+      
+      poster.style.transform = `scale(${scale})`;
+      wrapper.style.width = `${baseWidth * scale}px`;
+      wrapper.style.height = `${baseHeight * scale}px`;
+    }
+
+    // FORMAT SWITCHER: POSTER (4:3) VS STORY (9:16)
     function setLayoutFormat(format) {
       currentLayout = format;
       const poster = document.getElementById('salePoster');
@@ -831,9 +874,9 @@
 
       if (format === 'poster') {
         // 4:3 Banner Post Mode (1200 x 900)
-        btnPoster.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all bg-gradient-to-r from-amber-500 to-red-600 text-white shadow-md';
-        btnStory.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all';
-        label.innerText = 'Mode: Post / Catalog Banner (1200 x 900)';
+        btnPoster.className = 'flex items-center gap-1 px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg text-[11px] md:text-xs font-black transition-all bg-gradient-to-r from-amber-500 to-red-600 text-white shadow-md';
+        btnStory.className = 'flex items-center gap-1 px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg text-[11px] md:text-xs font-semibold text-slate-400 hover:text-white transition-all';
+        label.innerText = 'Post Banner (1200 x 900)';
 
         poster.style.width = '1200px';
         poster.style.height = '900px';
@@ -848,9 +891,9 @@
 
       } else {
         // 9:16 WhatsApp / Instagram Story Mode (1080 x 1920)
-        btnStory.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all bg-gradient-to-r from-amber-500 to-red-600 text-white shadow-md';
-        btnPoster.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all';
-        label.innerText = 'Mode: 9:16 WhatsApp & Insta Story (1080 x 1920)';
+        btnStory.className = 'flex items-center gap-1 px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg text-[11px] md:text-xs font-black transition-all bg-gradient-to-r from-amber-500 to-red-600 text-white shadow-md';
+        btnPoster.className = 'flex items-center gap-1 px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg text-[11px] md:text-xs font-semibold text-slate-400 hover:text-white transition-all';
+        label.innerText = 'Story / Status (1080 x 1920)';
 
         poster.style.width = '1080px';
         poster.style.height = '1920px';
@@ -865,31 +908,7 @@
       }
 
       autoScaleFit();
-      showToast('Layout Switched', `Active format: ${format === 'poster' ? '4:3 Feed Post' : '9:16 Mobile Story'}`);
-    }
-
-    // Auto-fit preview into viewer box
-    function autoScaleFit() {
-      const container = document.getElementById('posterWrapper').parentElement;
-      const poster = document.getElementById('salePoster');
-      if (!container || !poster) return;
-
-      const availWidth = container.clientWidth - 40;
-      const availHeight = container.clientHeight - 80;
-
-      const baseWidth = parseInt(poster.style.width);
-      const baseHeight = parseInt(poster.style.height);
-
-      const scale = Math.min(availWidth / baseWidth, availHeight / baseHeight, 1.0);
-      setZoom(Math.max(0.28, scale));
-    }
-
-    function setZoom(scale) {
-      const poster = document.getElementById('salePoster');
-      const wrapper = document.getElementById('posterWrapper');
-      poster.style.transform = `scale(${scale})`;
-      wrapper.style.width = `${parseInt(poster.style.width) * scale}px`;
-      wrapper.style.height = `${parseInt(poster.style.height) * scale}px`;
+      showToast('Layout Switched', `${format === 'poster' ? '4:3 Feed Post' : '9:16 Mobile Story'}`);
     }
 
     // Apply Presets
@@ -923,7 +942,7 @@
 
       resetPhotoTransform();
       refreshPoster();
-      showToast('Preset Loaded', `${data.brandTitle} ${data.modelTitle} configured in 1 tap!`);
+      showToast('Preset Loaded', `${data.brandTitle} ${data.modelTitle}`);
     }
 
     // Live refresh of text elements
@@ -951,20 +970,16 @@
       document.getElementById('pPrice').innerText = document.getElementById('inpPrice').value || '0/-';
       document.getElementById('pWarning').innerText = document.getElementById('inpWarning').value || "DON'T PAY ADVANCE";
       document.getElementById('pExchange').innerText = document.getElementById('inpExchange').value || 'EXCHANGE ACCEPTED';
-      
-      const perks = document.getElementById('inpFooterPerks').value;
-      const perksArray = perks.split('•').map(p => `<span>${p.trim()}</span>`).join('<span class="text-amber-500">•</span>');
-      document.getElementById('pFooterPerks').innerHTML = perksArray;
     }
 
-    // Photo upload handlers
+    // Photo uploads
     function handleMainPhoto(event) {
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = function(e) {
         document.getElementById('mainPhoneImg').src = e.target.result;
-        showToast('Photo Uploaded', 'Phone device photo updated.');
+        showToast('Photo Loaded', 'Phone image updated.');
       };
       reader.readAsDataURL(file);
     }
@@ -975,7 +990,7 @@
       const reader = new FileReader();
       reader.onload = function(e) {
         document.getElementById('pKitThumb').src = e.target.result;
-        showToast('Kit Photo Updated', 'Full kit accessory image updated.');
+        showToast('Kit Loaded', 'Full kit accessory image updated.');
       };
       reader.readAsDataURL(file);
     }
@@ -985,18 +1000,19 @@
       currentFilter = filterClass;
       document.querySelectorAll('.filter-btn').forEach(b => {
         if (b.getAttribute('data-filter') === filterClass) {
-          b.className = 'filter-btn py-1 px-2 rounded-lg bg-slate-900 border border-amber-400 text-amber-300 font-bold active:scale-95';
+          b.className = 'filter-btn py-1.5 px-1 rounded-lg bg-slate-950 border border-amber-400 text-amber-300 font-bold active:scale-95';
         } else {
-          b.className = 'filter-btn py-1 px-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 font-medium active:scale-95';
+          b.className = 'filter-btn py-1.5 px-1 rounded-lg bg-slate-950 border border-slate-700 text-slate-300 font-medium active:scale-95';
         }
       });
 
       const img = document.getElementById('mainPhoneImg');
-      img.className = `${filterClass} transition-all duration-300 max-h-[580px] max-w-[460px] object-contain`;
-      showToast('Filter Applied', `Applied ${filterClass.replace('filter-', '').toUpperCase()} studio pop.`);
+      const maxH = currentLayout === 'poster' ? 'max-h-[580px] max-w-[460px]' : 'max-h-[720px] max-w-[560px]';
+      img.className = `${filterClass} transition-all duration-300 ${maxH} object-contain`;
+      showToast('Filter Applied', filterClass.replace('filter-', '').toUpperCase());
     }
 
-    // Photo adjustments
+    // Photo transform controls
     function applyTransform() {
       photoTransform.scale = parseFloat(document.getElementById('sliderScale').value);
       photoTransform.rotate = parseInt(document.getElementById('sliderRotate').value);
@@ -1020,7 +1036,7 @@
       applyTransform();
     }
 
-    // Theme ambience switch
+    // Themes
     function setTheme(theme) {
       currentTheme = theme;
       const bg = document.getElementById('posterBg');
@@ -1028,9 +1044,9 @@
 
       document.querySelectorAll('.theme-btn').forEach(btn => {
         if (btn.getAttribute('data-theme') === theme) {
-          btn.className = 'theme-btn py-1.5 px-2 bg-slate-900 border border-amber-400 text-amber-400 rounded-xl font-bold active:scale-95';
+          btn.className = 'theme-btn py-2 px-1 bg-slate-950 border border-amber-400 text-amber-400 rounded-xl font-bold active:scale-95';
         } else {
-          btn.className = 'theme-btn py-1.5 px-2 bg-slate-900 border border-slate-700 text-slate-300 rounded-xl font-medium active:scale-95';
+          btn.className = 'theme-btn py-2 px-1 bg-slate-950 border border-slate-700 text-slate-300 rounded-xl font-medium active:scale-95';
         }
       });
 
@@ -1050,7 +1066,6 @@
       }
     }
 
-    // 1-Click WOW Theme Generator
     function applyRandomWowTheme() {
       const themes = ['showroom', 'darkneon', 'carbon'];
       const randomTheme = themes[Math.floor(Math.random() * themes.length)];
@@ -1060,24 +1075,24 @@
       const randomFilter = filters[Math.floor(Math.random() * filters.length)];
       setStudioFilter(randomFilter);
 
-      showToast('WOW Boost Activated', 'High-impact color grading & studio filters applied!');
+      showToast('WOW Boost', 'Applied style & HDR grading!');
     }
 
-    // High resolution 4K download
+    // Ultra HD Mobile Export
     async function exportFlyer() {
       const poster = document.getElementById('salePoster');
       const btn = document.getElementById('btnExport');
       const originalHtml = btn.innerHTML;
 
       try {
-        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Rendering Ultra HD...`;
+        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving...`;
         btn.disabled = true;
 
         const savedTransform = poster.style.transform;
         poster.style.transform = 'scale(1)';
 
         const canvas = await html2canvas(poster, {
-          scale: 2.2, // Ultra crisp resolution
+          scale: 2.0,
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#070b13',
@@ -1088,23 +1103,23 @@
 
         const link = document.createElement('a');
         const phone = (document.getElementById('inpModelTitle').value || 'Phone').replace(/\s+/g, '_');
-        link.download = `MAX_MOBILES_${phone}_${currentLayout.toUpperCase()}_FLYER.png`;
+        link.download = `MAX_MOBILES_${phone}_${currentLayout.toUpperCase()}.png`;
         link.href = canvas.toDataURL('image/png', 1.0);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
 
-        showToast('Export Complete!', 'Flyer downloaded in ultra-clear 4K quality!');
+        showToast('Flyer Downloaded!', 'Ready for WhatsApp & Instagram');
       } catch (err) {
         console.error(err);
-        showToast('Export Error', 'Unable to capture flyer. Please check image permissions.');
+        showToast('Export Error', 'Unable to capture. Please check permissions.');
       } finally {
         btn.innerHTML = originalHtml;
         btn.disabled = false;
       }
     }
 
-    // Notification toast
+    // Mobile Toast Notification
     function showToast(title, message) {
       const toast = document.getElementById('toast');
       document.getElementById('toastTitle').innerText = title;
@@ -1116,7 +1131,7 @@
       setTimeout(() => {
         toast.classList.remove('translate-y-0', 'opacity-100');
         toast.classList.add('translate-y-20', 'opacity-0');
-      }, 3200);
+      }, 2600);
     }
   </script>
 </body>
