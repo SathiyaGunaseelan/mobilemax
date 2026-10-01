@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile Shop Sale Poster & Story Studio</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts: Anton, Montserrat, Teko, Orbitron for retail flyer graphics -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Teko:wght@600;700&family=Orbitron:wght@800;900&display=swap" rel="stylesheet">
+  <!-- html2canvas for crisp image rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    /* Typography bindings */
+    .font-brand-impact {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-style: italic;
+    }
+    .font-poster-title {
+      font-family: 'Anton', 'Montserrat', sans-serif;
+      letter-spacing: -0.5px;
+    }
+    .font-price-number {
+      font-family: 'Teko', 'Anton', sans-serif;
+      letter-spacing: 0.5px;
+    }
+    .font-tech {
+      font-family: 'Orbitron', monospace;
+    }
+
+    /* 3D & Neon text effects */
+    .shop-text-shadow {
+      text-shadow: 
+        -2px -2px 0 #b91c1c, 
+        2px -2px 0 #b91c1c, 
+        -2px 2px 0 #b91c1c, 
+        2px 2px 0 #b91c1c, 
+        0 6px 12px rgba(0,0,0,0.9);
+    }
+    
+    .glow-gold {
+      text-shadow: 0 0 16px rgba(245, 158, 11, 0.75), 0 0 35px rgba(217, 119, 6, 0.5);
+    }
+
+    .glow-cyan {
+      text-shadow: 0 0 16px rgba(6, 182, 212, 0.75), 0 0 35px rgba(14, 165, 233, 0.5);
+    }
+
+    .price-badge-glow {
+      box-shadow: 0 0 30px rgba(239, 68, 68, 0.75), inset 0 0 15px rgba(251, 191, 36, 0.4);
+    }
+
+    /* Studio camera filters */
+    .filter-hdr {
+      filter: contrast(1.18) saturate(1.28) brightness(1.04) drop-shadow(0 20px 25px rgba(0,0,0,0.9));
+    }
+    .filter-crisp {
+      filter: contrast(1.3) saturate(1.1) brightness(1.06) drop-shadow(0 20px 25px rgba(0,0,0,0.9));
+    }
+    .filter-warm {
+      filter: sepia(0.18) contrast(1.15) saturate(1.3) brightness(1.05) drop-shadow(0 20px 25px rgba(0,0,0,0.9));
+    }
+    .filter-cyber {
+      filter: hue-rotate(180deg) contrast(1.2) drop-shadow(0 20px 25px rgba(0,0,0,0.9));
+    }
+    .filter-none {
+      filter: drop-shadow(0 20px 25px rgba(0,0,0,0.9));
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090d16;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+
+    input[type=range] {
+      accent-color: #f59e0b;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans select-none antialiased">
+
+  <!-- TOP APP BAR -->
+  <header class="bg-slate-900/95 backdrop-blur border-b border-slate-800 px-4 py-2.5 sticky top-0 z-50 flex items-center justify-between shadow-2xl">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-red-600 to-amber-400 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-red-600/30">
+        <i class="fa-solid fa-mobile-screen-button text-xl text-white"></i>
+      </div>
+      <div>
+        <h1 class="text-sm md:text-base font-black tracking-wide text-white flex items-center gap-1.5">
+          POSTERCRAFT <span class="text-[10px] bg-amber-500 text-slate-950 font-black px-1.5 py-0.5 rounded tracking-normal">STUDIO PRO</span>
+        </h1>
+        <p class="text-[11px] text-slate-400 hidden sm:block">Instant High-Conversion WhatsApp & Instagram Mobile Posters</p>
+      </div>
+    </div>
+
+    <!-- FORMAT SWITCHER (Poster vs Story) -->
+    <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-700/80 shadow-inner">
+      <button id="btnFormatPoster" onclick="setLayoutFormat('poster')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all bg-gradient-to-r from-amber-500 to-red-600 text-white shadow-md">
+        <i class="fa-solid fa-image text-sm"></i>
+        <span>Post / Banner (4:3)</span>
+      </button>
+      <button id="btnFormatStory" onclick="setLayoutFormat('story')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all">
+        <i class="fa-solid fa-mobile-screen text-sm"></i>
+        <span>Story / Status (9:16)</span>
+      </button>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="flex items-center gap-2">
+      <button onclick="applyRandomWowTheme()" class="hidden md:flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-amber-500/40 text-amber-300 font-bold text-xs rounded-lg transition active:scale-95">
+        <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
+        <span>WOW Theme</span>
+      </button>
+
+      <button id="btnExport" onclick="exportFlyer()" class="bg-gradient-to-r from-red-600 via-amber-500 to-yellow-400 hover:brightness-110 active:scale-95 text-slate-950 font-black text-xs md:text-sm px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg shadow-amber-500/25 transition">
+        <i class="fa-solid fa-download"></i>
+        <span>Download 4K Flyer</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- WORKSPACE GRID -->
+  <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden h-[calc(100vh-61px)]">
+    
+    <div class="lg:col-span-5 xl:col-span-4 bg-slate-900/95 border-r border-slate-800 p-4 overflow-y-auto space-y-4">
+      
+      <!-- 1-TAP INSTANT SMARTPHONE PRESETS -->
+      <div class="bg-gradient-to-br from-amber-500/10 via-slate-800 to-slate-900 p-3.5 rounded-2xl border border-amber-500/30 shadow-lg">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fa-solid fa-bolt-lightning text-yellow-400 animate-pulse"></i> 1-Tap Phone Presets:
+          </span>
+          <span class="text-[10px] text-slate-400 font-medium">Auto-fills specs, logos & titles</span>
+        </div>
+        <div class="grid grid-cols-3 gap-1.5">
+          <button onclick="applyPreset('redmi')" class="preset-btn bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 p-2 rounded-xl text-left transition flex flex-col justify-between active:scale-95">
+            <span class="text-[9px] text-[#ff6900] font-black uppercase">Redmi</span>
+            <span class="text-xs font-extrabold text-white truncate">Note 15 Pro+</span>
+            <span class="text-[10px] text-amber-400 font-bold mt-1">₹29,900/-</span>
+          </button>
+          
+          <button onclick="applyPreset('iphone')" class="preset-btn bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 p-2 rounded-xl text-left transition flex flex-col justify-between active:scale-95">
+            <span class="text-[9px] text-slate-300 font-black uppercase">Apple</span>
+            <span class="text-xs font-extrabold text-white truncate">15 Pro Max</span>
+            <span class="text-[10px] text-amber-400 font-bold mt-1">₹89,900/-</span>
+          </button>
+
+          <button onclick="applyPreset('samsung')" class="preset-btn bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 p-2 rounded-xl text-left transition flex flex-col justify-between active:scale-95">
+            <span class="text-[9px] text-blue-400 font-black uppercase">Samsung</span>
+            <span class="text-xs font-extrabold text-white truncate">S24 Ultra</span>
+            <span class="text-[10px] text-amber-400 font-bold mt-1">₹79,900/-</span>
+          </button>
+
+          <button onclick="applyPreset('oneplus')" class="preset-btn bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 p-2 rounded-xl text-left transition flex flex-col justify-between active:scale-95">
+            <span class="text-[9px] text-red-500 font-black uppercase">OnePlus</span>
+            <span class="text-xs font-extrabold text-white truncate">OnePlus 12</span>
+            <span class="text-[10px] text-amber-400 font-bold mt-1">₹49,999/-</span>
+          </button>
+
+          <button onclick="applyPreset('vivo')" class="preset-btn bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 p-2 rounded-xl text-left transition flex flex-col justify-between active:scale-95">
+            <span class="text-[9px] text-sky-400 font-black uppercase">Vivo</span>
+            <span class="text-xs font-extrabold text-white truncate">X100 Pro</span>
+            <span class="text-[10px] text-amber-400 font-bold mt-1">₹58,900/-</span>
+          </button>
+
+          <button onclick="applyPreset('realme')" class="preset-btn bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 p-2 rounded-xl text-left transition flex flex-col justify-between active:scale-95">
+            <span class="text-[9px] text-yellow-400 font-black uppercase">Realme</span>
+            <span class="text-xs font-extrabold text-white truncate">12 Pro+ 5G</span>
+            <span class="text-[10px] text-amber-400 font-bold mt-1">₹23,999/-</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-slate-800/60 p-3.5 rounded-2xl border border-slate-700/60 space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fa-solid fa-camera text-amber-400"></i> Client Photo & Studio Filters
+          </span>
+          <button onclick="resetPhotoTransform()" class="text-[10px] text-amber-400 hover:underline">Reset Transform</button>
+        </div>
+
+        <!-- File Upload Button -->
+        <div class="flex items-center gap-2">
+          <label class="flex-1 cursor-pointer bg-gradient-to-r from-slate-800 to-slate-900 hover:border-amber-400 border border-dashed border-slate-600 rounded-xl p-2.5 text-center text-xs text-slate-200 transition shadow-inner">
+            <i class="fa-solid fa-cloud-arrow-up text-amber-400 mr-1.5"></i>
+            <span class="font-bold">Upload Phone Photo</span>
+            <span class="block text-[10px] text-slate-400">Hand holding phone or table shot</span>
+            <input type="file" id="mainPhotoInput" accept="image/*" class="hidden" onchange="handleMainPhoto(event)">
+          </label>
+
+          <label class="cursor-pointer bg-slate-900 hover:border-amber-400 border border-dashed border-slate-700 rounded-xl p-2.5 text-center text-xs text-slate-300 transition w-28" title="Upload charger / kit photo">
+            <i class="fa-solid fa-box-open text-amber-400 block mb-0.5"></i>
+            <span class="text-[10px] font-bold block">Kit Photo</span>
+            <input type="file" id="kitPhotoInput" accept="image/*" class="hidden" onchange="handleKitPhoto(event)">
+          </label>
+        </div>
+
+        <!-- Instant Studio Filter Selection -->
+        <div>
+          <label class="text-[11px] font-semibold text-slate-400 block mb-1">Instant Studio Enhancer (Fixes Camera Quality):</label>
+          <div class="grid grid-cols-4 gap-1 text-[11px]">
+            <button onclick="setStudioFilter('filter-hdr')" class="filter-btn py-1 px-2 rounded-lg bg-slate-900 border border-amber-400 text-amber-300 font-bold active:scale-95" data-filter="filter-hdr">HDR Boost</button>
+            <button onclick="setStudioFilter('filter-crisp')" class="filter-btn py-1 px-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 font-medium active:scale-95" data-filter="filter-crisp">Crisp Pop</button>
+            <button onclick="setStudioFilter('filter-warm')" class="filter-btn py-1 px-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 font-medium active:scale-95" data-filter="filter-warm">Warm Shop</button>
+            <button onclick="setStudioFilter('filter-none')" class="filter-btn py-1 px-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 font-medium active:scale-95" data-filter="filter-none">Original</button>
+          </div>
+        </div>
+
+        <!-- Position & Scale Sliders -->
+        <div class="grid grid-cols-2 gap-2 text-[11px] bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+          <div>
+            <div class="flex justify-between text-slate-400 mb-0.5"><span>Scale:</span><span id="txtScale">1.0x</span></div>
+            <input type="range" id="sliderScale" min="0.6" max="1.8" step="0.05" value="1.0" class="w-full" oninput="applyTransform()">
+          </div>
+          <div>
+            <div class="flex justify-between text-slate-400 mb-0.5"><span>Rotate:</span><span id="txtRotate">0°</span></div>
+            <input type="range" id="sliderRotate" min="-30" max="30" step="1" value="0" class="w-full" oninput="applyTransform()">
+          </div>
+          <div>
+            <div class="flex justify-between text-slate-400 mb-0.5"><span>Pan X:</span><span id="txtPanX">0px</span></div>
+            <input type="range" id="sliderPanX" min="-300" max="300" step="5" value="0" class="w-full" oninput="applyTransform()">
+          </div>
+          <div>
+            <div class="flex justify-between text-slate-400 mb-0.5"><span>Pan Y:</span><span id="txtPanY">0px</span></div>
+            <input type="range" id="sliderPanY" min="-300" max="300" step="5" value="0" class="w-full" oninput="applyTransform()">
+          </div>
+        </div>
+      </div>
+
+      <details open class="group bg-slate-800/60 rounded-2xl border border-slate-700/60 overflow-hidden">
+        <summary class="flex items-center justify-between p-3.5 cursor-pointer font-bold text-xs uppercase tracking-wider text-slate-200 hover:bg-slate-800 transition">
+          <span class="flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-amber-400"></i> Model Details & Pricing
+          </span>
+          <i class="fa-solid fa-chevron-down text-slate-400 text-xs transition group-open:rotate-180"></i>
+        </summary>
+        <div class="p-3.5 pt-0 border-t border-slate-700/40 space-y-3 mt-2">
+          
+          <!-- Shop Name & Tag -->
+          <div class="grid grid-cols-3 gap-2">
+            <div class="col-span-2">
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Shop Name</label>
+              <input type="text" id="inpShopName" value="MAX MOBILES" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div>
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Location/Branch</label>
+              <input type="text" id="inpShopTag" value="OMR" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+          </div>
+
+          <!-- Model Heading & Variant -->
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Brand / Slogan</label>
+              <input type="text" id="inpBrandTitle" value="REDMI" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div>
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Color Variant</label>
+              <input type="text" id="inpColor" value="CARBON BLACK" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-12 gap-2">
+            <div class="col-span-6">
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Model Name</label>
+              <input type="text" id="inpModelTitle" value="Note 15" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white font-black focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div class="col-span-4">
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Suffix (Pro+/Ultra)</label>
+              <input type="text" id="inpModelSuffix" value="Pro+" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div class="col-span-2">
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Network</label>
+              <input type="text" id="inpNetwork" value="5G" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold text-center focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+          </div>
+
+          <!-- Specs (RAM, Storage, Spec 3) -->
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">RAM</label>
+              <input type="text" id="inpRam" value="8GB" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div>
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Storage</label>
+              <input type="text" id="inpStorage" value="256GB" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div>
+              <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Feature Badge</label>
+              <input type="text" id="inpSpec3" value="5G READY" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+          </div>
+
+          <!-- Price & Currency -->
+          <div class="bg-red-950/40 p-2.5 rounded-xl border border-red-800/60 grid grid-cols-3 gap-2 items-center">
+            <div>
+              <label class="text-[10px] font-semibold text-amber-400 block mb-0.5">Currency</label>
+              <select id="inpCurrency" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-bold focus:border-amber-400 outline-none" onchange="refreshPoster()">
+                <option value="₹">₹ (INR)</option>
+                <option value="$">$ (USD)</option>
+                <option value="AED">AED</option>
+                <option value="£">£ (GBP)</option>
+              </select>
+            </div>
+            <div class="col-span-2">
+              <label class="text-[10px] font-semibold text-amber-400 block mb-0.5">Offer Selling Price</label>
+              <input type="text" id="inpPrice" value="29,900/-" class="w-full bg-slate-900 border border-red-600 rounded-lg px-2.5 py-1 text-xs font-black text-amber-300 focus:border-amber-400 outline-none text-base" oninput="refreshPoster()">
+            </div>
+          </div>
+
+          <!-- Warranty & Kit Condition Badges -->
+          <div class="space-y-2">
+            <div>
+              <label class="text-[10px] font-semibold text-emerald-400 block mb-0.5">Warranty Badge</label>
+              <input type="text" id="inpWarranty" value="10 MONTHS WARRANTY REMAINING" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-emerald-300 font-bold focus:border-emerald-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div>
+              <label class="text-[10px] font-semibold text-amber-400 block mb-0.5">Condition Badge</label>
+              <input type="text" id="inpCondition" value="GOOD CONDITION FULLKIT" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-amber-300 font-bold focus:border-amber-400 outline-none" oninput="refreshPoster()">
+            </div>
+          </div>
+
+          <!-- Trust Badges -->
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[10px] font-semibold text-red-400 block mb-0.5">Warning Pill</label>
+              <input type="text" id="inpWarning" value="DON'T PAY ADVANCE" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white focus:border-red-400 outline-none" oninput="refreshPoster()">
+            </div>
+            <div>
+              <label class="text-[10px] font-semibold text-yellow-400 block mb-0.5">Exchange Pill</label>
+              <input type="text" id="inpExchange" value="EXCHANGE ACCEPTED" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white focus:border-yellow-400 outline-none" oninput="refreshPoster()">
+            </div>
+          </div>
+
+          <!-- Bottom Footer Promo -->
+          <div>
+            <label class="text-[10px] font-semibold text-slate-400 block mb-0.5">Shop Footer Perks Strip</label>
+            <input type="text" id="inpFooterPerks" value="WE BUY YOUR GADGETS  •  BEST EXCHANGE AVAILABLE  •  ALL MOBILES IN STOCK" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-300 focus:border-amber-400 outline-none" oninput="refreshPoster()">
+          </div>
+
+        </div>
+      </details>
+
+      <div class="bg-slate-800/60 p-3.5 rounded-2xl border border-slate-700/60">
+        <label class="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+          <i class="fa-solid fa-palette text-amber-400"></i> Ambiance Backdrop
+        </label>
+        <div class="grid grid-cols-3 gap-1.5 text-xs">
+          <button onclick="setTheme('showroom')" class="theme-btn py-1.5 px-2 bg-slate-900 border border-amber-400 text-amber-400 rounded-xl font-bold active:scale-95" data-theme="showroom">Shop Shelf</button>
+          <button onclick="setTheme('darkneon')" class="theme-btn py-1.5 px-2 bg-slate-900 border border-slate-700 text-slate-300 rounded-xl font-medium active:scale-95" data-theme="darkneon">Neon Cyber</button>
+          <button onclick="setTheme('carbon')" class="theme-btn py-1.5 px-2 bg-slate-900 border border-slate-700 text-slate-300 rounded-xl font-medium active:scale-95" data-theme="carbon">Dark Carbon</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="lg:col-span-7 xl:col-span-8 bg-[#070b13] flex flex-col items-center justify-center p-3 md:p-6 overflow-auto relative">
+      
+      <!-- Live Aspect Ratio Badge -->
+      <div class="mb-2 text-[11px] text-slate-400 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span id="canvasModeLabel" class="font-bold uppercase tracking-wider text-slate-200">Mode: Post / Catalog Banner (1200 x 900)</span>
+      </div>
+
+      <!-- Poster Rendering Container -->
+      <div id="posterWrapper" class="relative transition-all duration-300 flex items-center justify-center shadow-2xl">
+        
+        <!-- THE POSTER STAGE (Dynamically toggles classes between 'poster-layout' and 'story-layout') -->
+        <div id="salePoster" class="poster-layout relative overflow-hidden bg-slate-950 select-none shadow-[0_0_60px_rgba(0,0,0,0.9)] border border-slate-800" style="width: 1200px; height: 900px; transform-origin: center center;">
+          
+          <!-- Blurred Background Layer -->
+          <div id="posterBg" class="absolute inset-0 bg-cover bg-center transition-all duration-500 filter blur-[3px] brightness-[0.40] contrast-125 scale-105"
+               style="background-image: url('https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1400&q=80');">
+          </div>
+
+          <!-- Dark Lighting Gradients & Neon Streaks -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/80 pointer-events-none"></div>
+          <div id="glowAccent" class="absolute -top-24 -right-24 w-96 h-96 bg-amber-500/20 rounded-full blur-[100px] pointer-events-none"></div>
+
+          <!-- ================= HEADER SECTION ================= -->
+          <div id="posterHeader" class="absolute top-6 left-8 right-8 flex items-start justify-between z-30 pointer-events-none">
+            
+            <!-- Shop Branding -->
+            <div class="flex flex-col">
+              <div class="flex items-center gap-2 transform -skew-x-12">
+                <span id="pShopName" class="font-brand-impact text-5xl md:text-6xl tracking-tighter text-white shop-text-shadow">
+                  MAX <span class="text-amber-400">MOBILES</span>
+                </span>
+              </div>
+              <div class="flex items-center gap-2 mt-1 ml-2">
+                <span id="pShopTag" class="bg-black/90 border border-amber-400 text-amber-300 text-sm font-black px-3 py-0.5 rounded tracking-widest uppercase">
+                  OMR
+                </span>
+                <span id="pShopPhone" class="text-xs font-black text-slate-300 bg-slate-900/90 px-3 py-0.5 rounded border border-slate-700 tracking-wider">
+                  📞 +91 98765 43210
+                </span>
+              </div>
+            </div>
+
+            <!-- Brand Icon Badge -->
+            <div id="brandBadgeContainer" class="flex items-center justify-center">
+              <div id="brandBadge" class="w-16 h-16 rounded-2xl bg-[#ff6900] shadow-2xl flex items-center justify-center border-2 border-white/30">
+                <span class="text-white font-black text-2xl tracking-tighter">mi</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ================= DYNAMIC CONTENT CONTAINER ================= -->
+          <!-- In POSTER mode: horizontal split (Left: Phone, Right: Specs & Price) -->
+          <!-- In STORY mode: vertical stack (Top: Phone, Bottom: Specs & Price) -->
+          <div id="layoutRoot" class="absolute inset-0 z-20 flex pt-28 pb-14 px-8 pointer-events-none">
+            
+            <!-- PHONE HERO PHOTO CONTAINER -->
+            <div id="photoCol" class="relative flex items-center justify-center transition-all duration-300">
+              <div id="phonePhotoBox" class="relative transition-transform duration-75">
+                <img id="mainPhoneImg" 
+                     src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80" 
+                     alt="Phone device" 
+                     class="filter-hdr max-h-[580px] max-w-[460px] object-contain transition-all duration-300"
+                     onerror="this.src='https://placehold.co/400x600/1e293b/e2e8f0?text=Phone+Photo'">
+                
+                <!-- Glowing halo behind photo -->
+                <div class="absolute inset-0 bg-amber-500/15 filter blur-3xl -z-10 rounded-full scale-90"></div>
+              </div>
+            </div>
+
+            <!-- SPECS & SELLING DETAILS CONTAINER -->
+            <div id="detailsCol" class="flex flex-col justify-between transition-all duration-300">
+              
+              <!-- 3D MODEL HEADINGS -->
+              <div class="flex flex-col items-start">
+                
+                <!-- Brand Tagline (e.g. REDMI) -->
+                <div class="flex items-center gap-3">
+                  <span id="pBrandTitle" class="font-poster-title text-4xl text-slate-100 tracking-wider uppercase font-black drop-shadow-md">
+                    REDMI
+                  </span>
+                  <div class="h-1.5 w-14 bg-amber-500 rounded-full"></div>
+                </div>
+
+                <!-- Mega Model Name (Note 15 Pro+ 5G) -->
+                <div class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-[-6px]">
+                  <h2 id="pModelTitle" class="font-poster-title text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-amber-200 to-amber-500 leading-none drop-shadow-[0_6px_10px_rgba(0,0,0,0.95)]" style="-webkit-text-stroke: 1.5px rgba(255,255,255,0.4);">
+                    Note 15
+                  </h2>
+                  <h2 id="pModelSuffix" class="font-poster-title text-7xl font-black text-white italic drop-shadow-[0_6px_12px_rgba(0,0,0,0.95)]">
+                    Pro+
+                  </h2>
+                  <div id="pNetwork" class="border-2 border-red-500 bg-red-600 text-white font-black text-xl px-3 py-0.5 rounded-xl transform -rotate-3 shadow-xl">
+                    5G
+                  </div>
+                </div>
+
+                <!-- Color Variant Badge -->
+                <div class="mt-1">
+                  <div class="bg-black/90 border border-slate-700 text-slate-200 font-black text-xs px-4 py-1.5 rounded-full uppercase tracking-widest flex items-center gap-2 shadow-lg">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                    <span id="pColor">CARBON BLACK</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- SPECS CAPSULES (RAM, Storage, 5G Network) -->
+              <div id="specsCapsulesGrid" class="grid grid-cols-3 gap-3 my-2">
+                
+                <!-- RAM Pill -->
+                <div class="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-3 flex items-center gap-3 shadow-xl backdrop-blur-md">
+                  <div class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400 text-xl flex-shrink-0">
+                    <i class="fa-solid fa-microchip"></i>
+                  </div>
+                  <div>
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">RAM</span>
+                    <span id="pRam" class="text-2xl font-black text-white leading-tight block">8GB</span>
+                  </div>
+                </div>
+
+                <!-- STORAGE Pill -->
+                <div class="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-3 flex items-center gap-3 shadow-xl backdrop-blur-md">
+                  <div class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400 text-xl flex-shrink-0">
+                    <i class="fa-solid fa-hard-drive"></i>
+                  </div>
+                  <div>
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">STORAGE</span>
+                    <span id="pStorage" class="text-2xl font-black text-white leading-tight block">256GB</span>
+                  </div>
+                </div>
+
+                <!-- SUPPORT Pill -->
+                <div class="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-3 flex items-center gap-3 shadow-xl backdrop-blur-md">
+                  <div class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400 text-lg flex-shrink-0 font-black">
+                    <i class="fa-solid fa-wifi"></i>
+                  </div>
+                  <div>
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">SUPPORT</span>
+                    <span id="pSpec3" class="text-xs font-black text-white leading-tight block mt-1">5G READY</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- WARRANTY, CONDITION & KIT THUMBNAIL -->
+              <div id="warrantyRow" class="grid grid-cols-12 gap-3 items-stretch">
+                
+                <!-- Green Warranty Shield -->
+                <div class="col-span-5 bg-gradient-to-r from-emerald-950/90 to-slate-900/90 border-2 border-emerald-500 rounded-2xl p-2.5 flex items-center gap-2.5 shadow-xl">
+                  <div class="w-9 h-9 rounded-full bg-emerald-500 flex items-center justify-center text-slate-950 text-base font-black flex-shrink-0 shadow-lg">
+                    <i class="fa-solid fa-shield-halved"></i>
+                  </div>
+                  <div class="leading-tight">
+                    <span id="pWarranty" class="text-xs font-black text-emerald-300 uppercase block tracking-tight">
+                      10 MONTHS WARRANTY REMAINING
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Yellow Condition Box -->
+                <div class="col-span-5 bg-gradient-to-r from-amber-950/90 to-slate-900/90 border-2 border-amber-400 rounded-2xl p-2.5 flex items-center gap-2.5 shadow-xl">
+                  <div class="w-9 h-9 rounded-full bg-amber-400 flex items-center justify-center text-slate-950 text-base font-black flex-shrink-0 shadow-lg">
+                    <i class="fa-solid fa-box-open"></i>
+                  </div>
+                  <div class="leading-tight">
+                    <span id="pCondition" class="text-xs font-black text-amber-300 uppercase block tracking-tight">
+                      GOOD CONDITION FULLKIT
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Kit Thumbnail Box -->
+                <div class="col-span-2 bg-slate-900 border-2 border-slate-700 rounded-2xl overflow-hidden flex items-center justify-center relative shadow-lg">
+                  <img id="pKitThumb" 
+                       src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=250&q=80" 
+                       alt="Kit" 
+                       class="w-full h-full object-cover">
+                  <div class="absolute bottom-0 inset-x-0 bg-black/80 text-center text-[9px] font-black text-amber-300 uppercase py-0.5">
+                    FULL KIT
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- GIANT PRICE TAG BANNER -->
+              <div class="bg-gradient-to-r from-red-600 via-red-500 to-amber-500 p-1 rounded-3xl price-badge-glow flex items-center justify-center relative overflow-hidden shadow-2xl">
+                <div class="w-full bg-gradient-to-r from-red-800/95 via-red-700/95 to-red-600/95 py-2 px-6 rounded-[22px] flex items-center justify-between border border-amber-300/40">
+                  <div class="flex items-center gap-2.5">
+                    <span class="text-sm font-black bg-amber-400 text-slate-950 px-3 py-1 rounded-md tracking-wider uppercase shadow">PRICE :</span>
+                    <span id="pCurrency" class="w-10 h-10 rounded-full bg-amber-400 text-slate-950 font-black text-2xl flex items-center justify-center shadow-lg">₹</span>
+                  </div>
+                  <span id="pPrice" class="font-price-number text-6xl md:text-7xl font-black text-white tracking-wide drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)]">
+                    29,900/-
+                  </span>
+                </div>
+              </div>
+
+              <!-- WARNING & EXCHANGE PILLS -->
+              <div class="grid grid-cols-2 gap-3">
+                <div class="bg-gradient-to-r from-red-950/95 to-red-900/80 border border-red-500/80 rounded-2xl py-2 px-3 flex items-center gap-2.5 shadow-lg">
+                  <div class="w-7 h-7 rounded-lg bg-red-600 text-white flex items-center justify-center text-xs flex-shrink-0">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                  </div>
+                  <div class="leading-none">
+                    <span class="text-[9px] font-bold text-red-300 block uppercase">WARNING :</span>
+                    <span id="pWarning" class="text-xs font-black text-white uppercase tracking-tight">DON'T PAY ADVANCE</span>
+                  </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-amber-950/95 to-yellow-900/80 border border-amber-400/80 rounded-2xl py-2 px-3 flex items-center gap-2.5 shadow-lg">
+                  <div class="w-7 h-7 rounded-lg bg-amber-400 text-slate-950 flex items-center justify-center text-xs flex-shrink-0 font-bold">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                  </div>
+                  <div class="leading-none">
+                    <span class="text-[9px] font-bold text-amber-300 block uppercase">BEST VALUE :</span>
+                    <span id="pExchange" class="text-xs font-black text-amber-300 uppercase tracking-tight">EXCHANGE ACCEPTED</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ================= FOOTER TRUST STRIP ================= -->
+          <div id="posterFooter" class="absolute bottom-0 left-0 right-0 h-12 bg-black/95 border-t border-slate-800 px-8 flex items-center justify-between text-xs font-bold text-slate-300 z-30">
+            <div id="pFooterPerks" class="flex items-center gap-4 text-slate-300 tracking-wide">
+              <span>WE BUY YOUR GADGETS</span>
+              <span class="text-amber-500">•</span>
+              <span>BEST EXCHANGE AVAILABLE</span>
+              <span class="text-amber-500">•</span>
+              <span>ALL MOBILES IN STOCK</span>
+            </div>
+            
+            <div class="flex items-center gap-3 text-slate-400">
+              <div class="flex items-center gap-1.5 text-base">
+                <i class="fa-solid fa-mobile-screen"></i>
+                <i class="fa-solid fa-tablet-screen-button"></i>
+                <i class="fa-solid fa-clock"></i>
+                <i class="fa-solid fa-headphones"></i>
+              </div>
+              <span class="text-slate-950 bg-amber-400 font-black uppercase text-[11px] px-2.5 py-0.5 rounded shadow">VERIFIED STORE</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Live Zoom Controller -->
+      <div class="mt-4 flex items-center gap-3 bg-slate-900 border border-slate-800 px-4 py-1.5 rounded-full text-xs text-slate-400 shadow-xl">
+        <i class="fa-solid fa-magnifying-glass text-amber-400"></i>
+        <span>Zoom:</span>
+        <button onclick="setZoom(0.45)" class="hover:text-white px-1">45%</button>
+        <button onclick="setZoom(0.60)" class="hover:text-white px-1">60%</button>
+        <button onclick="setZoom(0.75)" class="hover:text-white px-1">75%</button>
+        <button onclick="autoScaleFit()" class="text-amber-400 font-bold px-2 py-0.5 bg-slate-800 rounded">Auto Fit</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 border border-amber-500 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+    <div id="toastIcon" class="w-8 h-8 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center font-bold">
+      <i class="fa-solid fa-check"></i>
+    </div>
+    <div>
+      <h4 id="toastTitle" class="text-xs font-bold uppercase text-amber-400">Success</h4>
+      <p id="toastMessage" class="text-xs text-slate-300">Flyer updated.</p>
+    </div>
+  </div>
+
+  <script>
+    // State management
+    let currentLayout = 'poster'; // 'poster' (4:3) or 'story' (9:16)
+    let currentTheme = 'showroom';
+    let currentFilter = 'filter-hdr';
+    let photoTransform = { scale: 1.0, rotate: 0, panX: 0, panY: 0 };
+
+    // Brand profiles & logo assets
+    const BRAND_DATA = {
+      mi: {
+        title: 'REDMI',
+        bg: '#ff6900',
+        html: `<span class="text-white font-black text-2xl tracking-tighter">mi</span>`
+      },
+      apple: {
+        title: 'APPLE',
+        bg: '#000000',
+        html: `<i class="fa-brands fa-apple text-white text-3xl"></i>`
+      },
+      samsung: {
+        title: 'SAMSUNG',
+        bg: '#0c2340',
+        html: `<span class="text-white font-black text-[11px] tracking-tighter">SAMSUNG</span>`
+      },
+      oneplus: {
+        title: 'ONEPLUS',
+        bg: '#eb0028',
+        html: `<span class="text-white font-black text-2xl tracking-tighter">1+</span>`
+      },
+      vivo: {
+        title: 'VIVO',
+        bg: '#415fff',
+        html: `<span class="text-white font-black text-base italic">vivo</span>`
+      },
+      realme: {
+        title: 'REALME',
+        bg: '#ffc915',
+        html: `<span class="text-black font-black text-sm lowercase">realme</span>`
+      }
+    };
+
+    // 1-Click Phone Presets
+    const PRESETS = {
+      redmi: {
+        brand: 'mi',
+        shopName: 'MAX MOBILES',
+        shopTag: 'OMR',
+        brandTitle: 'REDMI',
+        modelTitle: 'Note 15',
+        modelSuffix: 'Pro+',
+        network: '5G',
+        color: 'CARBON BLACK',
+        ram: '8GB',
+        storage: '256GB',
+        spec3: '5G READY',
+        warranty: '10 MONTHS WARRANTY REMAINING',
+        condition: 'GOOD CONDITION FULLKIT',
+        price: '29,900/-',
+        currency: '₹',
+        warning: "DON'T PAY ADVANCE",
+        exchange: 'EXCHANGE ACCEPTED',
+        image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80'
+      },
+      iphone: {
+        brand: 'apple',
+        shopName: 'MAX MOBILES',
+        shopTag: 'VIP STORE',
+        brandTitle: 'APPLE',
+        modelTitle: 'iPhone 15',
+        modelSuffix: 'Pro Max',
+        network: '5G',
+        color: 'NATURAL TITANIUM',
+        ram: '8GB',
+        storage: '512GB',
+        spec3: 'A17 PRO CHIP',
+        warranty: 'APPLECARE+ VALID OCT 2026',
+        condition: 'SEAL PACK CONDITION FULL BOX',
+        price: '89,900/-',
+        currency: '₹',
+        warning: "DON'T PAY ADVANCE",
+        exchange: 'OLD IPHONE EXCHANGE BONUS',
+        image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80'
+      },
+      samsung: {
+        brand: 'samsung',
+        shopName: 'MAX MOBILES',
+        shopTag: 'CITY CENTER',
+        brandTitle: 'SAMSUNG',
+        modelTitle: 'Galaxy S24',
+        modelSuffix: 'Ultra',
+        network: 'AI 5G',
+        color: 'TITANIUM GRAY',
+        ram: '12GB',
+        storage: '256GB',
+        spec3: 'GALAXY AI READY',
+        warranty: '11 MONTHS OFFICIAL WARRANTY',
+        condition: 'MINT CONDITION WITH S-PEN',
+        price: '79,900/-',
+        currency: '₹',
+        warning: "VERIFY BEFORE ADVANCE",
+        exchange: 'MAX EXCHANGE VALUE GUARANTEED',
+        image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=80'
+      },
+      oneplus: {
+        brand: 'oneplus',
+        shopName: 'MAX MOBILES',
+        shopTag: 'OMR BRANCH',
+        brandTitle: 'ONEPLUS',
+        modelTitle: 'OnePlus 12',
+        modelSuffix: '5G',
+        network: '5G',
+        color: 'SILKY BLACK',
+        ram: '16GB',
+        storage: '512GB',
+        spec3: '100W SUPERVOOC',
+        warranty: '8 MONTHS WARRANTY REMAINING',
+        condition: 'SCRATCHLESS 100W CHARGER BOX',
+        price: '49,999/-',
+        currency: '₹',
+        warning: "DON'T PAY ADVANCE",
+        exchange: 'BEST EXCHANGE VALUE',
+        image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=800&q=80'
+      },
+      vivo: {
+        brand: 'vivo',
+        shopName: 'MAX MOBILES',
+        shopTag: 'OMR',
+        brandTitle: 'VIVO',
+        modelTitle: 'X100',
+        modelSuffix: 'Pro',
+        network: '5G',
+        color: 'ASTEROID BLACK',
+        ram: '16GB',
+        storage: '512GB',
+        spec3: 'ZEISS 1-INCH SENSOR',
+        warranty: '9 MONTHS WARRANTY LEFT',
+        condition: 'LIKE BRAND NEW WITH BOX',
+        price: '58,900/-',
+        currency: '₹',
+        warning: "NO ADVANCE REQUIRED",
+        exchange: 'TOP EXCHANGE AVAILABLE',
+        image: 'https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80'
+      },
+      realme: {
+        brand: 'realme',
+        shopName: 'MAX MOBILES',
+        shopTag: 'OMR',
+        brandTitle: 'REALME',
+        modelTitle: '12 Pro+',
+        modelSuffix: '5G',
+        network: '5G',
+        color: 'SUBMARINE BLUE',
+        ram: '12GB',
+        storage: '256GB',
+        spec3: 'PERISCOPE PORTRAIT',
+        warranty: '6 MONTHS WARRANTY REMAINING',
+        condition: 'GOOD CONDITION FULLKIT',
+        price: '23,999/-',
+        currency: '₹',
+        warning: "DON'T PAY ADVANCE",
+        exchange: 'EASY EXCHANGE',
+        image: 'https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=800&q=80'
+      }
+    };
+
+    // Initialize layout
+    window.addEventListener('DOMContentLoaded', () => {
+      setLayoutFormat('poster');
+      window.addEventListener('resize', autoScaleFit);
+    });
+
+    // LAYOUT SWITCHER: POSTER (4:3) VS STORY (9:16)
+    function setLayoutFormat(format) {
+      currentLayout = format;
+      const poster = document.getElementById('salePoster');
+      const layoutRoot = document.getElementById('layoutRoot');
+      const photoCol = document.getElementById('photoCol');
+      const detailsCol = document.getElementById('detailsCol');
+      const label = document.getElementById('canvasModeLabel');
+      const btnPoster = document.getElementById('btnFormatPoster');
+      const btnStory = document.getElementById('btnFormatStory');
+      const phoneImg = document.getElementById('mainPhoneImg');
+
+      if (format === 'poster') {
+        // 4:3 Banner Post Mode (1200 x 900)
+        btnPoster.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all bg-gradient-to-r from-amber-500 to-red-600 text-white shadow-md';
+        btnStory.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all';
+        label.innerText = 'Mode: Post / Catalog Banner (1200 x 900)';
+
+        poster.style.width = '1200px';
+        poster.style.height = '900px';
+
+        // Horizontal Side-by-Side Flex
+        layoutRoot.className = 'absolute inset-0 z-20 flex flex-row pt-28 pb-14 px-8 pointer-events-none';
+        photoCol.className = 'w-[480px] h-full flex items-center justify-center transition-all duration-300';
+        detailsCol.className = 'w-[640px] ml-auto h-full flex flex-col justify-between transition-all duration-300';
+        
+        phoneImg.style.maxHeight = '580px';
+        phoneImg.style.maxWidth = '460px';
+
+      } else {
+        // 9:16 WhatsApp / Instagram Story Mode (1080 x 1920)
+        btnStory.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all bg-gradient-to-r from-amber-500 to-red-600 text-white shadow-md';
+        btnPoster.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all';
+        label.innerText = 'Mode: 9:16 WhatsApp & Insta Story (1080 x 1920)';
+
+        poster.style.width = '1080px';
+        poster.style.height = '1920px';
+
+        // Vertical Stack for Story
+        layoutRoot.className = 'absolute inset-0 z-20 flex flex-col pt-36 pb-16 px-10 pointer-events-none justify-between';
+        photoCol.className = 'w-full h-[760px] flex items-center justify-center transition-all duration-300 my-2';
+        detailsCol.className = 'w-full flex flex-col justify-between gap-5 transition-all duration-300 pb-4';
+        
+        phoneImg.style.maxHeight = '720px';
+        phoneImg.style.maxWidth = '560px';
+      }
+
+      autoScaleFit();
+      showToast('Layout Switched', `Active format: ${format === 'poster' ? '4:3 Feed Post' : '9:16 Mobile Story'}`);
+    }
+
+    // Auto-fit preview into viewer box
+    function autoScaleFit() {
+      const container = document.getElementById('posterWrapper').parentElement;
+      const poster = document.getElementById('salePoster');
+      if (!container || !poster) return;
+
+      const availWidth = container.clientWidth - 40;
+      const availHeight = container.clientHeight - 80;
+
+      const baseWidth = parseInt(poster.style.width);
+      const baseHeight = parseInt(poster.style.height);
+
+      const scale = Math.min(availWidth / baseWidth, availHeight / baseHeight, 1.0);
+      setZoom(Math.max(0.28, scale));
+    }
+
+    function setZoom(scale) {
+      const poster = document.getElementById('salePoster');
+      const wrapper = document.getElementById('posterWrapper');
+      poster.style.transform = `scale(${scale})`;
+      wrapper.style.width = `${parseInt(poster.style.width) * scale}px`;
+      wrapper.style.height = `${parseInt(poster.style.height) * scale}px`;
+    }
+
+    // Apply Presets
+    function applyPreset(key) {
+      const data = PRESETS[key];
+      if (!data) return;
+
+      document.getElementById('inpShopName').value = data.shopName;
+      document.getElementById('inpShopTag').value = data.shopTag;
+      document.getElementById('inpBrandTitle').value = data.brandTitle;
+      document.getElementById('inpModelTitle').value = data.modelTitle;
+      document.getElementById('inpModelSuffix').value = data.modelSuffix;
+      document.getElementById('inpNetwork').value = data.network;
+      document.getElementById('inpColor').value = data.color;
+      document.getElementById('inpRam').value = data.ram;
+      document.getElementById('inpStorage').value = data.storage;
+      document.getElementById('inpSpec3').value = data.spec3;
+      document.getElementById('inpWarranty').value = data.warranty;
+      document.getElementById('inpCondition').value = data.condition;
+      document.getElementById('inpPrice').value = data.price;
+      document.getElementById('inpCurrency').value = data.currency;
+      document.getElementById('inpWarning').value = data.warning;
+      document.getElementById('inpExchange').value = data.exchange;
+      document.getElementById('mainPhoneImg').src = data.image;
+
+      // Update brand badge
+      const brand = BRAND_DATA[data.brand] || BRAND_DATA['mi'];
+      const badgeBox = document.getElementById('brandBadge');
+      badgeBox.style.backgroundColor = brand.bg;
+      badgeBox.innerHTML = brand.html;
+
+      resetPhotoTransform();
+      refreshPoster();
+      showToast('Preset Loaded', `${data.brandTitle} ${data.modelTitle} configured in 1 tap!`);
+    }
+
+    // Live refresh of text elements
+    function refreshPoster() {
+      const name = document.getElementById('inpShopName').value || 'SHOP';
+      const parts = name.split(' ');
+      if (parts.length > 1) {
+        document.getElementById('pShopName').innerHTML = `${parts[0]} <span class="text-amber-400">${parts.slice(1).join(' ')}</span>`;
+      } else {
+        document.getElementById('pShopName').innerHTML = name;
+      }
+
+      document.getElementById('pShopTag').innerText = document.getElementById('inpShopTag').value || 'OMR';
+      document.getElementById('pBrandTitle').innerText = document.getElementById('inpBrandTitle').value || '';
+      document.getElementById('pModelTitle').innerText = document.getElementById('inpModelTitle').value || '';
+      document.getElementById('pModelSuffix').innerText = document.getElementById('inpModelSuffix').value || '';
+      document.getElementById('pNetwork').innerText = document.getElementById('inpNetwork').value || '5G';
+      document.getElementById('pColor').innerText = document.getElementById('inpColor').value || '';
+      document.getElementById('pRam').innerText = document.getElementById('inpRam').value || '8GB';
+      document.getElementById('pStorage').innerText = document.getElementById('inpStorage').value || '256GB';
+      document.getElementById('pSpec3').innerText = document.getElementById('inpSpec3').value || '5G READY';
+      document.getElementById('pWarranty').innerText = document.getElementById('inpWarranty').value || '';
+      document.getElementById('pCondition').innerText = document.getElementById('inpCondition').value || '';
+      document.getElementById('pCurrency').innerText = document.getElementById('inpCurrency').value || '₹';
+      document.getElementById('pPrice').innerText = document.getElementById('inpPrice').value || '0/-';
+      document.getElementById('pWarning').innerText = document.getElementById('inpWarning').value || "DON'T PAY ADVANCE";
+      document.getElementById('pExchange').innerText = document.getElementById('inpExchange').value || 'EXCHANGE ACCEPTED';
+      
+      const perks = document.getElementById('inpFooterPerks').value;
+      const perksArray = perks.split('•').map(p => `<span>${p.trim()}</span>`).join('<span class="text-amber-500">•</span>');
+      document.getElementById('pFooterPerks').innerHTML = perksArray;
+    }
+
+    // Photo upload handlers
+    function handleMainPhoto(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('mainPhoneImg').src = e.target.result;
+        showToast('Photo Uploaded', 'Phone device photo updated.');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleKitPhoto(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('pKitThumb').src = e.target.result;
+        showToast('Kit Photo Updated', 'Full kit accessory image updated.');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Studio photo filters
+    function setStudioFilter(filterClass) {
+      currentFilter = filterClass;
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        if (b.getAttribute('data-filter') === filterClass) {
+          b.className = 'filter-btn py-1 px-2 rounded-lg bg-slate-900 border border-amber-400 text-amber-300 font-bold active:scale-95';
+        } else {
+          b.className = 'filter-btn py-1 px-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 font-medium active:scale-95';
+        }
+      });
+
+      const img = document.getElementById('mainPhoneImg');
+      img.className = `${filterClass} transition-all duration-300 max-h-[580px] max-w-[460px] object-contain`;
+      showToast('Filter Applied', `Applied ${filterClass.replace('filter-', '').toUpperCase()} studio pop.`);
+    }
+
+    // Photo adjustments
+    function applyTransform() {
+      photoTransform.scale = parseFloat(document.getElementById('sliderScale').value);
+      photoTransform.rotate = parseInt(document.getElementById('sliderRotate').value);
+      photoTransform.panX = parseInt(document.getElementById('sliderPanX').value);
+      photoTransform.panY = parseInt(document.getElementById('sliderPanY').value);
+
+      document.getElementById('txtScale').innerText = `${photoTransform.scale.toFixed(2)}x`;
+      document.getElementById('txtRotate').innerText = `${photoTransform.rotate}°`;
+      document.getElementById('txtPanX').innerText = `${photoTransform.panX}px`;
+      document.getElementById('txtPanY').innerText = `${photoTransform.panY}px`;
+
+      const target = document.getElementById('phonePhotoBox');
+      target.style.transform = `translate(${photoTransform.panX}px, ${photoTransform.panY}px) rotate(${photoTransform.rotate}deg) scale(${photoTransform.scale})`;
+    }
+
+    function resetPhotoTransform() {
+      document.getElementById('sliderScale').value = 1.0;
+      document.getElementById('sliderRotate').value = 0;
+      document.getElementById('sliderPanX').value = 0;
+      document.getElementById('sliderPanY').value = 0;
+      applyTransform();
+    }
+
+    // Theme ambience switch
+    function setTheme(theme) {
+      currentTheme = theme;
+      const bg = document.getElementById('posterBg');
+      const glow = document.getElementById('glowAccent');
+
+      document.querySelectorAll('.theme-btn').forEach(btn => {
+        if (btn.getAttribute('data-theme') === theme) {
+          btn.className = 'theme-btn py-1.5 px-2 bg-slate-900 border border-amber-400 text-amber-400 rounded-xl font-bold active:scale-95';
+        } else {
+          btn.className = 'theme-btn py-1.5 px-2 bg-slate-900 border border-slate-700 text-slate-300 rounded-xl font-medium active:scale-95';
+        }
+      });
+
+      if (theme === 'showroom') {
+        bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1400&q=80')";
+        bg.style.filter = "blur(3px) brightness(0.40) contrast(1.25)";
+        glow.className = 'absolute -top-24 -right-24 w-96 h-96 bg-amber-500/20 rounded-full blur-[100px] pointer-events-none';
+      } else if (theme === 'darkneon') {
+        bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80')";
+        bg.style.filter = "blur(4px) brightness(0.35) hue-rotate(210deg)";
+        glow.className = 'absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/30 rounded-full blur-[100px] pointer-events-none';
+      } else if (theme === 'carbon') {
+        bg.style.backgroundImage = "none";
+        bg.style.backgroundColor = "#090d16";
+        bg.style.filter = "none";
+        glow.className = 'absolute -top-24 -right-24 w-96 h-96 bg-red-600/20 rounded-full blur-[100px] pointer-events-none';
+      }
+    }
+
+    // 1-Click WOW Theme Generator
+    function applyRandomWowTheme() {
+      const themes = ['showroom', 'darkneon', 'carbon'];
+      const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+      setTheme(randomTheme);
+      
+      const filters = ['filter-hdr', 'filter-crisp', 'filter-warm'];
+      const randomFilter = filters[Math.floor(Math.random() * filters.length)];
+      setStudioFilter(randomFilter);
+
+      showToast('WOW Boost Activated', 'High-impact color grading & studio filters applied!');
+    }
+
+    // High resolution 4K download
+    async function exportFlyer() {
+      const poster = document.getElementById('salePoster');
+      const btn = document.getElementById('btnExport');
+      const originalHtml = btn.innerHTML;
+
+      try {
+        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Rendering Ultra HD...`;
+        btn.disabled = true;
+
+        const savedTransform = poster.style.transform;
+        poster.style.transform = 'scale(1)';
+
+        const canvas = await html2canvas(poster, {
+          scale: 2.2, // Ultra crisp resolution
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#070b13',
+          logging: false
+        });
+
+        poster.style.transform = savedTransform;
+
+        const link = document.createElement('a');
+        const phone = (document.getElementById('inpModelTitle').value || 'Phone').replace(/\s+/g, '_');
+        link.download = `MAX_MOBILES_${phone}_${currentLayout.toUpperCase()}_FLYER.png`;
+        link.href = canvas.toDataURL('image/png', 1.0);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        showToast('Export Complete!', 'Flyer downloaded in ultra-clear 4K quality!');
+      } catch (err) {
+        console.error(err);
+        showToast('Export Error', 'Unable to capture flyer. Please check image permissions.');
+      } finally {
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+      }
+    }
+
+    // Notification toast
+    function showToast(title, message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastTitle').innerText = title;
+      document.getElementById('toastMessage').innerText = message;
+      
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3200);
+    }
+  </script>
+</body>
+</html>
