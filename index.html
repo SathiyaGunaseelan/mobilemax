@@ -8,38 +8,34 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Font Awesome 6 Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <!-- Google Fonts: Montserrat, Anton, Teko, Orbitron -->
+  <!-- Google Fonts: Anton, Montserrat, Cinzel, Teko -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cinzel:wght@700;900&family=Montserrat:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Teko:wght@600;700&family=Orbitron:wght@800;900&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <!-- html2canvas for crisp image rendering -->
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cinzel:wght@800;900&family=Montserrat:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+  <!-- html2canvas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
     .font-poster-title { font-family: 'Anton', 'Montserrat', sans-serif; letter-spacing: -0.5px; }
     .font-price-number { font-family: 'Teko', 'Anton', sans-serif; letter-spacing: 0.5px; }
-    .font-brand-impact { font-family: 'Montserrat', sans-serif; font-weight: 900; }
     .font-luxury { font-family: 'Cinzel', serif; }
 
-    /* html2canvas SAFE Golden and Typography styling (NO background-clip: text!) */
-    .gold-solid-text {
+    /* html2canvas SAFE typography (No background-clip: text to prevent solid blocks) */
+    .gold-brand-text {
       color: #F6CE55;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 12px rgba(229, 186, 73, 0.45);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.9), 0 0 14px rgba(229, 186, 73, 0.5);
     }
     
-    .gold-border {
-      border-color: #d4af37;
-    }
-
-    .shop-text-shadow {
-      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.95), 0 0 20px rgba(229, 186, 73, 0.4);
+    .gold-title-text {
+      color: #FFDE59;
+      text-shadow: 0 3px 6px rgba(0,0,0,0.95), 0 0 15px rgba(255, 222, 89, 0.4);
     }
 
     .price-badge-glow {
-      box-shadow: 0 0 35px rgba(239, 68, 68, 0.75), inset 0 0 15px rgba(251, 191, 36, 0.35);
+      box-shadow: 0 0 30px rgba(239, 68, 68, 0.8), inset 0 0 15px rgba(251, 191, 36, 0.4);
     }
 
-    /* Camera filters */
+    /* Studio camera filters */
     .filter-hdr { filter: contrast(1.22) saturate(1.28) brightness(1.04) drop-shadow(0 20px 25px rgba(0,0,0,0.95)); }
     .filter-crisp { filter: contrast(1.35) saturate(1.1) brightness(1.08) drop-shadow(0 20px 25px rgba(0,0,0,0.95)); }
     .filter-warm { filter: sepia(0.16) contrast(1.18) saturate(1.3) brightness(1.05) drop-shadow(0 20px 25px rgba(0,0,0,0.95)); }
@@ -84,8 +80,8 @@
 
       <div class="leading-tight">
         <h1 class="text-xs md:text-sm font-black tracking-wider text-white flex items-center gap-1.5">
-          <span class="gold-solid-text font-luxury tracking-widest font-black">MAX MOBILES</span>
-          <span class="text-[9px] bg-red-600 text-white font-black px-1.5 py-0.2 rounded shadow">OMR</span>
+          <span class="gold-brand-text font-luxury tracking-widest font-black">MAX MOBILES</span>
+          <span class="inline-flex items-center justify-center text-[10px] leading-none bg-red-600 text-white font-black px-1.5 py-0.5 rounded shadow">OMR</span>
         </h1>
         <p class="text-[10px] text-amber-400 font-bold flex items-center gap-1">
           <i class="fa-solid fa-phone-volume text-[9px] text-emerald-400"></i> +91 7305685950
@@ -123,8 +119,8 @@
         </div>
         
         <div class="flex items-center gap-2">
-          <span class="text-[10px] font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">
-            <i class="fa-solid fa-lock text-[9px]"></i> Only Trusted: 7305685950
+          <span class="inline-flex items-center text-[10px] font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">
+            <i class="fa-solid fa-lock text-[9px] mr-1"></i> Only Trusted: 7305685950
           </span>
           <button onclick="autoScaleFit()" class="px-2 py-0.5 bg-slate-900 border border-slate-700 text-amber-300 rounded font-semibold text-[10px] active:scale-95">
             <i class="fa-solid fa-arrows-rotate"></i>
@@ -136,7 +132,7 @@
       <div id="posterWrapper" class="relative transition-all duration-200 flex items-center justify-center my-auto pb-4">
         
         <!-- THE POSTER CANVAS (Native 1200 x 900) -->
-        <div id="salePoster" class="relative overflow-hidden bg-[#07090e] select-none shadow-[0_0_60px_rgba(0,0,0,0.95)] border border-amber-500/30" style="width: 1200px; height: 900px;">
+        <div id="salePoster" class="relative overflow-hidden bg-[#07090e] select-none shadow-[0_0_60px_rgba(0,0,0,0.95)] border border-amber-500/30" style="width: 1200px; height: 900px; min-width: 1200px; min-height: 900px;">
           
           <!-- Blurred Store Ambiance Layer -->
           <div id="posterBg" class="absolute inset-0 bg-cover bg-center transition-all duration-500 filter blur-[3px] brightness-[0.40] contrast-125 scale-105"
@@ -148,13 +144,12 @@
           <div id="glowAccent" class="absolute -top-24 -right-24 w-96 h-96 bg-amber-500/20 rounded-full blur-[100px] pointer-events-none"></div>
           <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-red-600/15 rounded-full blur-[100px] pointer-events-none"></div>
 
-          <!-- ================= HEADER SECTION WITH OFFICIAL LOGO & CONTACT ================= -->
+          <!-- ================= HEADER SECTION (FIXED TRUNCATION & CENTERED OMR) ================= -->
           <div class="absolute top-5 left-7 right-7 flex items-center justify-between z-30 pointer-events-none">
             
             <!-- OFFICIAL MAX MOBILES GOLD MONOGRAM LOGO BLOCK -->
             <div class="flex items-center gap-3.5">
-              <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-neutral-950 via-black to-neutral-900 border-2 border-[#E5BA49] p-1.5 flex items-center justify-center shadow-2xl shadow-black">
-                <!-- Vector Monogram with exact geometric cuts -->
+              <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-neutral-950 via-black to-neutral-900 border-2 border-[#E5BA49] p-1.5 flex items-center justify-center shadow-2xl shadow-black flex-shrink-0">
                 <svg viewBox="0 0 200 130" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <linearGradient id="posterGold" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -170,46 +165,47 @@
                 </svg>
               </div>
 
+              <!-- Unrestricted width, no truncation, centered OMR badge -->
               <div class="flex flex-col">
-                <div class="flex items-center gap-2">
-                  <!-- Robust SVG text for 100% bug-free rendering in html2canvas -->
-                  <svg width="250" height="42" viewBox="0 0 250 42" class="overflow-visible">
-                    <defs>
-                      <linearGradient id="textGoldGrad" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0%" stop-color="#FFF3B8"/>
-                        <stop offset="45%" stop-color="#F3C856"/>
-                        <stop offset="100%" stop-color="#B8851B"/>
-                      </linearGradient>
-                    </defs>
-                    <text x="0" y="32" font-family="'Cinzel', serif" font-weight="900" font-size="34" letter-spacing="3" fill="url(#textGoldGrad)">MAX MOBILES</text>
-                  </svg>
-                  <span class="bg-red-600 text-white font-black text-sm px-2 py-0.5 rounded-md tracking-widest uppercase shadow-md">
-                    OMR
+                <div class="flex items-center gap-2.5 whitespace-nowrap">
+                  <span class="gold-brand-text font-luxury font-black text-4xl tracking-widest leading-none drop-shadow-lg">
+                    MAX MOBILES
                   </span>
+                  <div class="inline-flex items-center justify-center bg-red-600 text-white font-black text-sm px-2.5 h-7 rounded-md tracking-wider uppercase shadow-md leading-none">
+                    OMR
+                  </div>
                 </div>
 
-                <!-- TRUSTED CALLOUT BANNER -->
-                <div class="flex items-center gap-2 mt-1">
-                  <div class="bg-gradient-to-r from-emerald-950 to-neutral-950 border border-emerald-400/80 px-3 py-1 rounded-md flex items-center gap-1.5 shadow-lg">
+                <!-- TRUSTED CALLOUT BANNER - Fully centered items -->
+                <div class="flex items-center gap-2 mt-1.5">
+                  <div class="bg-gradient-to-r from-emerald-950 to-neutral-950 border border-emerald-400/80 px-3 h-7 rounded-md flex items-center gap-2 shadow-lg leading-none">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                    <span class="text-[11px] font-black tracking-wider text-emerald-300 uppercase">
+                    <span class="text-[11px] font-black tracking-wider text-emerald-300 uppercase leading-none">
                       OFFICIAL ONLY TRUSTED NUMBER:
                     </span>
-                    <span class="text-sm font-black text-white ml-0.5 tracking-wider">
+                    <span class="text-sm font-black text-white ml-0.5 tracking-wider leading-none">
                       +91 7305685950
                     </span>
                   </div>
-                  <span class="text-[10px] bg-red-600/90 text-white font-bold px-2 py-1 rounded tracking-tight">
+                  <div class="inline-flex items-center justify-center text-[10px] bg-red-600/90 text-white font-bold px-2.5 h-7 rounded leading-none tracking-tight">
                     BEWARE OF FRAUDS
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- BRAND BADGE (Top Right) -->
-            <div id="brandBadgeContainer" class="flex items-center justify-center">
-              <div id="brandBadge" class="w-16 h-16 rounded-2xl bg-[#ff6900] shadow-2xl flex items-center justify-center border-2 border-white/30">
-                <span class="text-white font-black text-2xl tracking-tighter">mi</span>
+            <!-- AUTHENTIC BRAND BADGE (Top Right - 64x64 with precise centering) -->
+            <div id="brandBadgeContainer" class="flex items-center justify-center flex-shrink-0">
+              <div id="brandBadge" class="w-16 h-16 rounded-2xl bg-[#ff6900] shadow-2xl flex items-center justify-center border-2 border-white/40 p-2.5">
+                <!-- Authentic Xiaomi 'mi' Vector Logo -->
+                <svg viewBox="0 0 100 100" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Outer white rounded square border -->
+                  <rect x="5" y="5" width="90" height="90" rx="18" stroke="white" stroke-width="8" fill="none"/>
+                  <!-- 'm' letter path -->
+                  <path d="M26 32 V68 M26 44 C26 36 34 32 42 32 C50 32 54 38 54 46 V68 M40 44 V68" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <!-- 'i' letter stem & dot -->
+                  <path d="M68 44 V68 M68 32 V34" stroke="white" stroke-width="8" stroke-linecap="round"/>
+                </svg>
               </div>
             </div>
 
@@ -240,28 +236,29 @@
                 
                 <!-- Brand Tagline -->
                 <div class="flex items-center gap-3 mb-1">
-                  <span id="pBrandTitle" class="font-poster-title text-4xl text-amber-400 tracking-wider uppercase font-black drop-shadow-md">
+                  <span id="pBrandTitle" class="font-poster-title text-4xl text-amber-400 tracking-wider uppercase font-black drop-shadow-md leading-none">
                     REDMI
                   </span>
                   <div class="h-1.5 w-14 bg-amber-500 rounded-full"></div>
                 </div>
 
-                <!-- Model Mega Title - Fixed line-height and no overlapping background clip -->
-                <div class="flex items-baseline flex-wrap gap-x-3 gap-y-1 w-full my-0.5">
-                  <h2 id="pModelTitle" class="font-poster-title text-6xl font-black text-amber-300 leading-tight drop-shadow-[0_4px_10px_rgba(0,0,0,0.95)]" style="-webkit-text-stroke: 1.5px rgba(0,0,0,0.6);">
+                <!-- Model Mega Title with Dead-Centered 5G Badge -->
+                <div class="flex items-center flex-wrap gap-x-3.5 gap-y-1 w-full my-0.5">
+                  <h2 id="pModelTitle" class="font-poster-title text-6xl font-black gold-title-text leading-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.95)]">
                     Note 15
                   </h2>
-                  <h2 id="pModelSuffix" class="font-poster-title text-6xl font-black text-white italic drop-shadow-[0_4px_10px_rgba(0,0,0,0.95)]">
+                  <h2 id="pModelSuffix" class="font-poster-title text-6xl font-black text-white italic leading-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.95)]">
                     Pro+
                   </h2>
-                  <div id="pNetwork" class="border-2 border-red-500 bg-red-600 text-white font-black text-xl px-3 py-0.5 rounded-xl transform -rotate-3 shadow-xl">
+                  <!-- 5G Badge with exact vertical and horizontal centering -->
+                  <div id="pNetwork" class="inline-flex items-center justify-center border-2 border-red-500 bg-red-600 text-white font-black text-lg px-3 py-1 rounded-xl shadow-xl leading-none transform -rotate-2">
                     5G
                   </div>
                 </div>
 
                 <!-- Color Variant Badge -->
                 <div class="mt-2">
-                  <div class="bg-black/90 border border-slate-700 text-slate-200 font-black text-xs px-4 py-1.5 rounded-full uppercase tracking-widest flex items-center gap-2 shadow-lg">
+                  <div class="inline-flex items-center gap-2 bg-black/90 border border-slate-700 text-slate-200 font-black text-xs px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg leading-none">
                     <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
                     <span id="pColor">CARBON BLACK</span>
                   </div>
@@ -269,7 +266,7 @@
 
               </div>
 
-              <!-- SPECS CAPSULES (RAM, Storage, 5G Network) -->
+              <!-- SPECS CAPSULES (RAM, Storage, 5G Network) - Exact Center Alignment -->
               <div id="specsCapsulesGrid" class="grid grid-cols-3 gap-3 my-1">
                 
                 <!-- RAM Pill -->
@@ -277,9 +274,9 @@
                   <div class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400 text-xl flex-shrink-0">
                     <i class="fa-solid fa-microchip"></i>
                   </div>
-                  <div>
+                  <div class="flex flex-col justify-center leading-tight">
                     <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">RAM</span>
-                    <span id="pRam" class="text-2xl font-black text-white leading-tight block">8GB</span>
+                    <span id="pRam" class="text-2xl font-black text-white leading-none mt-0.5">8GB</span>
                   </div>
                 </div>
 
@@ -288,9 +285,9 @@
                   <div class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400 text-xl flex-shrink-0">
                     <i class="fa-solid fa-hard-drive"></i>
                   </div>
-                  <div>
+                  <div class="flex flex-col justify-center leading-tight">
                     <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">STORAGE</span>
-                    <span id="pStorage" class="text-2xl font-black text-white leading-tight block">256GB</span>
+                    <span id="pStorage" class="text-2xl font-black text-white leading-none mt-0.5">256GB</span>
                   </div>
                 </div>
 
@@ -299,24 +296,24 @@
                   <div class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400 text-lg flex-shrink-0 font-black">
                     <i class="fa-solid fa-wifi"></i>
                   </div>
-                  <div>
+                  <div class="flex flex-col justify-center leading-tight">
                     <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">NETWORK</span>
-                    <span id="pSpec3" class="text-xs font-black text-white leading-tight block mt-1">5G READY</span>
+                    <span id="pSpec3" class="text-xs font-black text-white leading-none mt-1">5G READY</span>
                   </div>
                 </div>
 
               </div>
 
-              <!-- WARRANTY & KIT CONDITION ROW (DYNAMICALLY ADAPTED) -->
+              <!-- WARRANTY & KIT CONDITION ROW (PERFECT VERTICAL ALIGNMENT) -->
               <div id="warrantyRow" class="grid grid-cols-12 gap-3 items-stretch">
                 
-                <!-- Green Warranty Shield -->
-                <div class="col-span-6 bg-gradient-to-r from-emerald-950/90 to-slate-900/90 border-2 border-emerald-500 rounded-2xl p-2.5 flex items-center gap-2.5 shadow-xl">
-                  <div class="w-9 h-9 rounded-full bg-emerald-500 flex items-center justify-center text-slate-950 text-base font-black flex-shrink-0 shadow-lg">
+                <!-- Green Warranty Shield Card -->
+                <div class="col-span-6 bg-gradient-to-r from-emerald-950/90 to-slate-900/90 border-2 border-emerald-500 rounded-2xl p-2.5 flex items-center gap-3 shadow-xl">
+                  <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-slate-950 text-lg font-black flex-shrink-0 shadow-lg">
                     <i class="fa-solid fa-shield-halved"></i>
                   </div>
-                  <div class="leading-tight">
-                    <span id="pWarranty" class="text-xs font-black text-emerald-300 uppercase block tracking-tight">
+                  <div class="flex items-center">
+                    <span id="pWarranty" class="text-xs font-black text-emerald-300 uppercase leading-snug tracking-tight">
                       10 MONTHS WARRANTY REMAINING
                     </span>
                   </div>
@@ -325,12 +322,12 @@
                 <!-- Dynamic Kit Badge (Full Kit / No Kit / Only Mobile) -->
                 <div id="kitConditionContainer" class="col-span-6 grid grid-cols-12 gap-2">
                   
-                  <div id="kitTextBadge" class="col-span-8 bg-gradient-to-r from-amber-950/90 to-slate-900/90 border-2 border-amber-400 rounded-2xl p-2.5 flex items-center gap-2 shadow-xl">
-                    <div id="kitIcon" class="w-8 h-8 rounded-full bg-amber-400 flex items-center justify-center text-slate-950 text-sm font-black flex-shrink-0 shadow-lg">
+                  <div id="kitTextBadge" class="col-span-8 bg-gradient-to-r from-amber-950/90 to-slate-900/90 border-2 border-amber-400 rounded-2xl p-2.5 flex items-center gap-2.5 shadow-xl">
+                    <div id="kitIcon" class="w-9 h-9 rounded-full bg-amber-400 flex items-center justify-center text-slate-950 text-base font-black flex-shrink-0 shadow-lg">
                       <i class="fa-solid fa-box-open"></i>
                     </div>
-                    <div class="leading-tight">
-                      <span id="pCondition" class="text-[11px] font-black text-amber-300 uppercase block tracking-tight">
+                    <div class="flex items-center">
+                      <span id="pCondition" class="text-[11px] font-black text-amber-300 uppercase leading-snug tracking-tight">
                         GOOD CONDITION FULLKIT
                       </span>
                     </div>
@@ -342,7 +339,7 @@
                          src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=250&q=80" 
                          alt="Kit" 
                          class="w-full h-full object-cover">
-                    <div class="absolute bottom-0 inset-x-0 bg-black/85 text-center text-[8px] font-black text-amber-300 uppercase py-0.5">
+                    <div class="absolute bottom-0 inset-x-0 bg-black/85 text-center text-[8px] font-black text-amber-300 uppercase py-0.5 leading-none">
                       ORIGINAL BOX
                     </div>
                   </div>
@@ -351,28 +348,32 @@
 
               </div>
 
-              <!-- GIANT PRICE TAG BANNER - Clean flexbox, no bottom overflow -->
+              <!-- GIANT PRICE TAG BANNER (Centering all items along same optical baseline, no clipping) -->
               <div class="bg-gradient-to-r from-red-600 via-red-500 to-amber-500 p-1 rounded-3xl price-badge-glow flex items-center justify-center relative overflow-hidden shadow-2xl my-1">
-                <div class="w-full bg-gradient-to-r from-red-900/95 via-red-800/95 to-red-700/95 py-2 px-6 rounded-[22px] flex items-center justify-between border border-amber-300/40">
-                  <div class="flex items-center gap-2.5">
-                    <span class="text-xs font-black bg-amber-400 text-slate-950 px-3 py-1.5 rounded-md tracking-wider uppercase shadow">OFFER PRICE :</span>
-                    <span id="pCurrency" class="w-9 h-9 rounded-full bg-amber-400 text-slate-950 font-black text-xl flex items-center justify-center shadow-lg">₹</span>
+                <div class="w-full bg-gradient-to-r from-red-900/95 via-red-800/95 to-red-700/95 py-2.5 px-6 rounded-[22px] flex items-center justify-between border border-amber-300/40">
+                  <div class="flex items-center gap-3">
+                    <div class="inline-flex items-center justify-center text-xs font-black bg-amber-400 text-slate-950 px-3.5 h-8 rounded-md tracking-wider uppercase shadow leading-none">
+                      OFFER PRICE :
+                    </div>
+                    <div id="pCurrency" class="w-9 h-9 rounded-full bg-amber-400 text-slate-950 font-black text-xl flex items-center justify-center shadow-lg leading-none">
+                      ₹
+                    </div>
                   </div>
-                  <span id="pPrice" class="font-price-number text-5xl md:text-6xl font-black text-white tracking-wide leading-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)]">
+                  <span id="pPrice" class="font-price-number text-5xl md:text-6xl font-black text-white tracking-wide leading-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)] pr-2">
                     29,900/-
                   </span>
                 </div>
               </div>
 
-              <!-- WARNING & CONTACT VERIFICATION PILLS -->
+              <!-- WARNING & CONTACT VERIFICATION PILLS - Strict Centering -->
               <div class="grid grid-cols-2 gap-3">
                 <div class="bg-gradient-to-r from-red-950/95 to-red-900/80 border border-red-500/80 rounded-2xl py-2 px-3 flex items-center gap-2.5 shadow-lg">
                   <div class="w-7 h-7 rounded-lg bg-red-600 text-white flex items-center justify-center text-xs flex-shrink-0">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                   </div>
-                  <div class="leading-none">
-                    <span class="text-[9px] font-bold text-red-300 block uppercase">STRICT NOTICE :</span>
-                    <span id="pWarning" class="text-xs font-black text-white uppercase tracking-tight">DON'T PAY ADVANCE TO ANYONE</span>
+                  <div class="flex flex-col justify-center leading-tight">
+                    <span class="text-[9px] font-bold text-red-300 uppercase leading-none">STRICT NOTICE :</span>
+                    <span id="pWarning" class="text-xs font-black text-white uppercase tracking-tight leading-none mt-1">DON'T PAY ADVANCE TO ANYONE</span>
                   </div>
                 </div>
 
@@ -380,9 +381,9 @@
                   <div class="w-7 h-7 rounded-lg bg-amber-400 text-slate-950 flex items-center justify-center text-xs flex-shrink-0 font-bold">
                     <i class="fa-solid fa-arrows-rotate"></i>
                   </div>
-                  <div class="leading-none">
-                    <span class="text-[9px] font-bold text-amber-300 block uppercase">EXCHANGE OFFER :</span>
-                    <span id="pExchange" class="text-xs font-black text-amber-300 uppercase tracking-tight">BEST EXCHANGE VALUE IN OMR</span>
+                  <div class="flex flex-col justify-center leading-tight">
+                    <span class="text-[9px] font-bold text-amber-300 uppercase leading-none">EXCHANGE OFFER :</span>
+                    <span id="pExchange" class="text-xs font-black text-amber-300 uppercase tracking-tight leading-none mt-1">BEST EXCHANGE VALUE IN OMR</span>
                   </div>
                 </div>
               </div>
@@ -393,7 +394,7 @@
 
           <!-- ================= FOOTER TRUST STRIP ================= -->
           <div class="absolute bottom-0 left-0 right-0 h-12 bg-black/95 border-t border-amber-500/30 px-8 flex items-center justify-between text-xs font-bold text-slate-300 z-30">
-            <div class="flex items-center gap-4 text-slate-300 tracking-wide">
+            <div class="flex items-center gap-4 text-slate-300 tracking-wide leading-none">
               <span class="text-amber-400 font-black">MAX MOBILES OMR</span>
               <span class="text-amber-500">•</span>
               <span>WE BUY & SELL GADGETS</span>
@@ -401,14 +402,16 @@
               <span class="text-emerald-300 font-extrabold">📞 7305685950</span>
             </div>
             
-            <div class="flex items-center gap-3 text-slate-400">
-              <div class="flex items-center gap-1.5 text-base text-amber-400">
+            <div class="flex items-center gap-3 text-slate-400 leading-none">
+              <div class="flex items-center gap-2 text-base text-amber-400">
                 <i class="fa-solid fa-mobile-screen"></i>
                 <i class="fa-solid fa-tablet-screen-button"></i>
                 <i class="fa-solid fa-headphones"></i>
                 <i class="fa-solid fa-shield-heart"></i>
               </div>
-              <span class="text-slate-950 bg-amber-400 font-black uppercase text-[11px] px-2.5 py-0.5 rounded shadow">100% VERIFIED STORE</span>
+              <div class="inline-flex items-center justify-center text-slate-950 bg-amber-400 font-black uppercase text-[11px] px-2.5 h-6 rounded shadow leading-none">
+                100% VERIFIED STORE
+              </div>
             </div>
           </div>
 
@@ -528,7 +531,7 @@
             </div>
           </div>
 
-          <!-- RAM SELECTOR CHIPS (2, 4, 6, 8, 12, 16, 24) -->
+          <!-- RAM SELECTOR CHIPS -->
           <div>
             <div class="flex items-center justify-between mb-1">
               <label class="text-[10px] font-bold text-amber-400 uppercase tracking-wide">RAM Capacity (Tap to pick):</label>
@@ -546,7 +549,7 @@
             </div>
           </div>
 
-          <!-- STORAGE SELECTOR CHIPS (32, 64, 128, 256, 512, 1TB) -->
+          <!-- STORAGE SELECTOR CHIPS -->
           <div>
             <div class="flex items-center justify-between mb-1">
               <label class="text-[10px] font-bold text-amber-400 uppercase tracking-wide">Storage Capacity (Tap to pick):</label>
@@ -579,7 +582,7 @@
               </button>
             </div>
 
-            <!-- Upload Kit Accessories Photo (Visible when Full Kit is active) -->
+            <!-- Upload Kit Accessories Photo -->
             <div id="kitUploadSection" class="pt-1">
               <label class="cursor-pointer bg-slate-900 border border-dashed border-amber-500/50 hover:border-amber-400 rounded-lg p-2 text-center flex items-center justify-between active:scale-95">
                 <span class="text-xs font-bold text-white flex items-center gap-1.5">
@@ -737,25 +740,75 @@
   <script>
     // State
     let currentBrand = 'mi';
-    let currentKitMode = 'fullkit'; // 'fullkit', 'nolit', 'onlymobile'
+    let currentKitMode = 'fullkit';
     let currentTheme = 'showroom';
     let currentFilter = 'filter-hdr';
     let photoTransform = { scale: 1.0, rotate: 0, panX: 0, panY: 0 };
     let customBrandLogoData = null;
 
-    // Mobile Brand Database
+    // Mobile Brand Database with Authentic Vector Logos
     const BRANDS = {
-      mi: { name: 'REDMI', color: '#ff6900', html: `<span class="text-white font-black text-2xl tracking-tighter">mi</span>` },
-      apple: { name: 'APPLE', color: '#000000', html: `<i class="fa-brands fa-apple text-white text-3xl"></i>` },
-      samsung: { name: 'SAMSUNG', color: '#0c2340', html: `<span class="text-white font-black text-[10px] tracking-tighter">SAMSUNG</span>` },
-      oneplus: { name: 'ONEPLUS', color: '#eb0028', html: `<span class="text-white font-black text-2xl tracking-tighter">1+</span>` },
-      vivo: { name: 'VIVO', color: '#415fff', html: `<span class="text-white font-black text-base italic">vivo</span>` },
-      oppo: { name: 'OPPO', color: '#008b47', html: `<span class="text-white font-black text-base">oppo</span>` },
-      realme: { name: 'REALME', color: '#ffc915', html: `<span class="text-black font-black text-sm lowercase">realme</span>` },
-      pixel: { name: 'PIXEL', color: '#4285f4', html: `<span class="text-white font-black text-xl"><i class="fa-brands fa-google"></i></span>` },
-      nothing: { name: 'NOTHING', color: '#111111', html: `<span class="text-white font-mono font-black text-xs tracking-widest">( N )</span>` },
-      iqoo: { name: 'iQOO', color: '#ffc107', html: `<span class="text-black font-black text-sm italic">iQOO</span>` },
-      moto: { name: 'MOTO', color: '#001435', html: `<span class="text-white font-black text-xl italic font-serif">M</span>` }
+      mi: { 
+        name: 'REDMI', 
+        color: '#ff6900', 
+        html: `
+          <svg viewBox="0 0 100 100" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="5" width="90" height="90" rx="18" stroke="white" stroke-width="8" fill="none"/>
+            <path d="M26 32 V68 M26 44 C26 36 34 32 42 32 C50 32 54 38 54 46 V68 M40 44 V68" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M68 44 V68 M68 32 V34" stroke="white" stroke-width="8" stroke-linecap="round"/>
+          </svg>
+        ` 
+      },
+      apple: { 
+        name: 'APPLE', 
+        color: '#000000', 
+        html: `<i class="fa-brands fa-apple text-white text-3xl"></i>` 
+      },
+      samsung: { 
+        name: 'SAMSUNG', 
+        color: '#0c2340', 
+        html: `<span class="text-white font-black text-[11px] tracking-tight">SAMSUNG</span>` 
+      },
+      oneplus: { 
+        name: 'ONEPLUS', 
+        color: '#eb0028', 
+        html: `<span class="text-white font-black text-2xl tracking-tighter">1+</span>` 
+      },
+      vivo: { 
+        name: 'VIVO', 
+        color: '#415fff', 
+        html: `<span class="text-white font-black text-base italic">vivo</span>` 
+      },
+      oppo: { 
+        name: 'OPPO', 
+        color: '#008b47', 
+        html: `<span class="text-white font-black text-base font-bold">oppo</span>` 
+      },
+      realme: { 
+        name: 'REALME', 
+        color: '#ffc915', 
+        html: `<span class="text-black font-black text-sm lowercase">realme</span>` 
+      },
+      pixel: { 
+        name: 'PIXEL', 
+        color: '#4285f4', 
+        html: `<i class="fa-brands fa-google text-white text-2xl"></i>` 
+      },
+      nothing: { 
+        name: 'NOTHING', 
+        color: '#111111', 
+        html: `<span class="text-white font-mono font-black text-xs tracking-widest">( N )</span>` 
+      },
+      iqoo: { 
+        name: 'iQOO', 
+        color: '#ffc107', 
+        html: `<span class="text-black font-black text-sm italic">iQOO</span>` 
+      },
+      moto: { 
+        name: 'MOTO', 
+        color: '#001435', 
+        html: `<span class="text-white font-black text-xl italic font-serif">M</span>` 
+      }
     };
 
     // 1-Tap Presets
@@ -821,7 +874,7 @@
       window.addEventListener('orientationchange', () => setTimeout(autoScaleFit, 250));
     });
 
-    // MOBILE VIEWPORT SCALING ENGINE (Prevents getting pushed up or cut off on phones)
+    // MOBILE VIEWPORT SCALING ENGINE (Fits screen without vertical clipping)
     function autoScaleFit() {
       const container = document.getElementById('previewContainer');
       const poster = document.getElementById('salePoster');
@@ -831,11 +884,9 @@
       const baseWidth = 1200;
       const baseHeight = 900;
 
-      // Available space with generous padding to prevent edge overflow
       const availWidth = Math.max(container.clientWidth - 20, 280);
       const availHeight = Math.max(container.clientHeight - 40, 200);
 
-      // Calculate scale to ensure 100% visibility on mobile screens
       const scale = Math.min(availWidth / baseWidth, availHeight / baseHeight, 0.95);
 
       poster.style.transform = `scale(${scale})`;
@@ -843,7 +894,7 @@
       wrapper.style.height = `${baseHeight * scale}px`;
     }
 
-    // Mobile Segment Tabs
+    // Segment Tab Switcher
     function switchTab(tabId) {
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
       document.querySelectorAll('.tab-button').forEach(btn => {
@@ -860,7 +911,6 @@
       }
     }
 
-    // Render Brands Grid Buttons
     function renderBrandsList() {
       const grid = document.getElementById('brandsGrid');
       grid.innerHTML = '';
@@ -874,23 +924,23 @@
         }`;
         btn.onclick = () => selectBrand(key);
         btn.innerHTML = `
-          <div class="w-7 h-7 rounded-lg flex items-center justify-center shadow" style="background-color: ${b.color};">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center shadow p-1" style="background-color: ${b.color};">
             ${b.html}
           </div>
-          <span class="text-[10px] font-black mt-1 uppercase truncate w-full text-center">${b.name}</span>
+          <span class="text-[10px] font-black mt-1 uppercase truncate w-full text-center leading-none">${b.name}</span>
         `;
         grid.appendChild(btn);
       });
     }
 
-    // Select Smartphone Brand
     function selectBrand(key) {
       currentBrand = key;
       const b = BRANDS[key];
       if (!b) return;
 
-      document.getElementById('brandBadge').style.backgroundColor = b.color;
-      document.getElementById('brandBadge').innerHTML = b.html;
+      const badge = document.getElementById('brandBadge');
+      badge.style.backgroundColor = b.color;
+      badge.innerHTML = b.html;
       document.getElementById('pBrandTitle').innerText = b.name;
       renderBrandsList();
       showToast('Brand Selected', b.name);
@@ -936,20 +986,19 @@
       const btnNone = document.getElementById('btnKitNone');
       const btnMobile = document.getElementById('btnKitMobile');
 
-      // Reset button styles
       [btnFull, btnNone, btnMobile].forEach(btn => {
         btn.className = 'py-1.5 px-1 bg-slate-900 text-slate-300 font-bold text-[11px] rounded-lg border border-slate-700 active:scale-95';
       });
 
       if (mode === 'fullkit') {
         btnFull.className = 'py-1.5 px-1 bg-amber-500 text-neutral-950 font-black text-[11px] rounded-lg border border-amber-400 active:scale-95';
-        textBadge.className = 'col-span-8 bg-gradient-to-r from-amber-950/90 to-slate-900/90 border-2 border-amber-400 rounded-2xl p-2.5 flex items-center gap-2 shadow-xl';
+        textBadge.className = 'col-span-8 bg-gradient-to-r from-amber-950/90 to-slate-900/90 border-2 border-amber-400 rounded-2xl p-2.5 flex items-center gap-2.5 shadow-xl';
         photoWrap.classList.remove('hidden');
         uploadSec.classList.remove('hidden');
         kitIcon.innerHTML = `<i class="fa-solid fa-box-open"></i>`;
-        kitIcon.className = 'w-8 h-8 rounded-full bg-amber-400 flex items-center justify-center text-slate-950 text-sm font-black flex-shrink-0 shadow-lg';
+        kitIcon.className = 'w-9 h-9 rounded-full bg-amber-400 flex items-center justify-center text-slate-950 text-base font-black flex-shrink-0 shadow-lg';
         kitText.innerText = 'GOOD CONDITION FULLKIT';
-        kitText.className = 'text-[11px] font-black text-amber-300 uppercase block tracking-tight';
+        kitText.className = 'text-[11px] font-black text-amber-300 uppercase leading-snug tracking-tight';
 
       } else if (mode === 'nolit') {
         btnNone.className = 'py-1.5 px-1 bg-amber-500 text-neutral-950 font-black text-[11px] rounded-lg border border-amber-400 active:scale-95';
@@ -957,9 +1006,9 @@
         photoWrap.classList.add('hidden');
         uploadSec.classList.add('hidden');
         kitIcon.innerHTML = `<i class="fa-solid fa-ban"></i>`;
-        kitIcon.className = 'w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-white text-sm font-black flex-shrink-0 shadow-lg';
+        kitIcon.className = 'w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-white text-base font-black flex-shrink-0 shadow-lg';
         kitText.innerText = 'NO KIT INVOLVED / WITHOUT BOX (SPECIAL DEAL)';
-        kitText.className = 'text-xs font-black text-slate-200 uppercase block tracking-tight';
+        kitText.className = 'text-xs font-black text-slate-200 uppercase leading-snug tracking-tight';
 
       } else if (mode === 'onlymobile') {
         btnMobile.className = 'py-1.5 px-1 bg-amber-500 text-neutral-950 font-black text-[11px] rounded-lg border border-amber-400 active:scale-95';
@@ -967,9 +1016,9 @@
         photoWrap.classList.add('hidden');
         uploadSec.classList.add('hidden');
         kitIcon.innerHTML = `<i class="fa-solid fa-mobile-screen"></i>`;
-        kitIcon.className = 'w-8 h-8 rounded-full bg-sky-400 flex items-center justify-center text-slate-950 text-sm font-black flex-shrink-0 shadow-lg';
+        kitIcon.className = 'w-9 h-9 rounded-full bg-sky-400 flex items-center justify-center text-slate-950 text-base font-black flex-shrink-0 shadow-lg';
         kitText.innerText = 'ONLY MOBILE HANDSET / 100% ORIGINAL TESTED';
-        kitText.className = 'text-xs font-black text-sky-300 uppercase block tracking-tight';
+        kitText.className = 'text-xs font-black text-sky-300 uppercase leading-snug tracking-tight';
       }
 
       showToast('Kit Updated', mode.toUpperCase());
@@ -1008,7 +1057,93 @@
       showToast('Loaded Preset', `${data.modelTitle}`);
     }
 
-    // Modal Add Custom Brand
+    function handleMainPhoto(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        document.getElementById('mainPhoneImg').src = ev.target.result;
+        showToast('Photo Loaded', 'Ready to position');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleKitPhoto(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        document.getElementById('pKitThumb').src = ev.target.result;
+        showToast('Kit Photo Updated', 'Uploaded successfully');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function applyTransform() {
+      photoTransform.scale = parseFloat(document.getElementById('sliderScale').value);
+      photoTransform.rotate = parseInt(document.getElementById('sliderRotate').value);
+      photoTransform.panX = parseInt(document.getElementById('sliderPanX').value);
+      photoTransform.panY = parseInt(document.getElementById('sliderPanY').value);
+
+      document.getElementById('txtScale').innerText = photoTransform.scale.toFixed(2) + 'x';
+      document.getElementById('txtRotate').innerText = photoTransform.rotate + '°';
+      document.getElementById('txtPanX').innerText = photoTransform.panX + 'px';
+      document.getElementById('txtPanY').innerText = photoTransform.panY + 'px';
+
+      const box = document.getElementById('phonePhotoBox');
+      box.style.transform = `translate(${photoTransform.panX}px, ${photoTransform.panY}px) rotate(${photoTransform.rotate}deg) scale(${photoTransform.scale})`;
+    }
+
+    function resetPhotoTransform() {
+      document.getElementById('sliderScale').value = 1.0;
+      document.getElementById('sliderRotate').value = 0;
+      document.getElementById('sliderPanX').value = 0;
+      document.getElementById('sliderPanY').value = 0;
+      applyTransform();
+    }
+
+    function setStudioFilter(filterClass) {
+      currentFilter = filterClass;
+      const img = document.getElementById('mainPhoneImg');
+      img.className = `max-h-[570px] max-w-[460px] object-contain transition-all duration-300 ${filterClass}`;
+
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-filter') === filterClass) {
+          btn.className = 'filter-btn py-1.5 px-1 rounded-lg bg-slate-950 border border-amber-400 text-amber-300 font-bold active:scale-95';
+        } else {
+          btn.className = 'filter-btn py-1.5 px-1 rounded-lg bg-slate-950 border border-slate-700 text-slate-300 font-medium active:scale-95';
+        }
+      });
+      showToast('Filter Applied', filterClass.replace('filter-', '').toUpperCase());
+    }
+
+    const THEMES = {
+      showroom: { bg: 'https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1400&q=80', glow: 'rgba(245, 158, 11, 0.2)' },
+      cyber: { bg: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1400&q=80', glow: 'rgba(56, 189, 248, 0.28)' },
+      darkgold: { bg: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1400&q=80', glow: 'rgba(217, 119, 6, 0.3)' },
+      crimson: { bg: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1400&q=80', glow: 'rgba(225, 29, 72, 0.3)' },
+      carbon: { bg: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1400&q=80', glow: 'rgba(255, 255, 255, 0.1)' },
+      emerald: { bg: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1400&q=80', glow: 'rgba(16, 185, 129, 0.25)' }
+    };
+
+    function setTheme(themeKey) {
+      currentTheme = themeKey;
+      const t = THEMES[themeKey];
+      if (!t) return;
+
+      document.getElementById('posterBg').style.backgroundImage = `url('${t.bg}')`;
+      document.getElementById('glowAccent').style.backgroundColor = t.glow;
+
+      document.querySelectorAll('.theme-btn').forEach(btn => {
+        if (btn.getAttribute('data-theme') === themeKey) {
+          btn.className = 'theme-btn py-2 px-1 bg-slate-950 border border-amber-400 text-amber-400 rounded-xl font-bold active:scale-95 no-tap-highlight';
+        } else {
+          btn.className = 'theme-btn py-2 px-1 bg-slate-950 border border-slate-700 text-slate-300 rounded-xl font-medium active:scale-95 no-tap-highlight';
+        }
+      });
+      showToast('Theme Updated', themeKey.toUpperCase());
+    }
+
     function openNewBrandModal() { document.getElementById('brandModal').classList.remove('hidden'); }
     function closeNewBrandModal() {
       document.getElementById('brandModal').classList.add('hidden');
@@ -1034,7 +1169,7 @@
 
       const html = customBrandLogoData 
         ? `<img src="${customBrandLogoData}" class="w-full h-full object-contain p-1">`
-        : `<span class="text-white font-black text-sm tracking-tighter uppercase">${short}</span>`;
+        : `<span class="text-white font-black text-sm tracking-tighter uppercase leading-none">${short}</span>`;
 
       BRANDS[key] = { name: name.toUpperCase(), color: color, html: html };
       closeNewBrandModal();
@@ -1043,9 +1178,7 @@
       showToast('New Brand Added', name);
     }
 
-    // High quality canvas rendering engine without html2canvas clipping bugs
     async function renderCanvasData() {
-      // Ensure web fonts are completely ready before capture
       if (document.fonts && document.fonts.ready) {
         await document.fonts.ready;
       }
@@ -1055,6 +1188,8 @@
       poster.style.transform = 'none';
 
       const canvas = await html2canvas(poster, {
+        width: 1200,
+        height: 900,
         scale: 2.0,
         useCORS: true,
         allowTaint: true,
@@ -1072,7 +1207,6 @@
       return canvas;
     }
 
-    // Export High-Res PNG
     async function exportFlyer() {
       const btn = document.getElementById('btnExport');
       const originalHtml = btn.innerHTML;
@@ -1100,7 +1234,6 @@
       }
     }
 
-    // Direct Share to Instagram or Native Social Apps
     async function shareToInstagram() {
       showToast('Preparing Media', 'Generating high-res banner...');
       try {
@@ -1118,7 +1251,6 @@
             });
             showToast('Shared', 'Shared directly to your app!');
           } else {
-            // Fallback for browsers without direct file sharing
             const link = document.createElement('a');
             link.download = `MAX_MOBILES_${phone}.png`;
             link.href = canvas.toDataURL('image/png', 1.0);
@@ -1133,7 +1265,6 @@
       }
     }
 
-    // Notification Toast
     function showToast(title, message) {
       const toast = document.getElementById('toast');
       document.getElementById('toastTitle').innerText = title;
